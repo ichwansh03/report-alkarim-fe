@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">SchoolReport</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="laporan_ibadah">Laporan Ibadah</string>
+    <string name="greetings">Assalamualaikum, \nIchwan Sholihin</string>
+    <string name="nisn_nip">NISN/NIP</string>
+    <string name="nama">Nama</string>
+    <string name="login">Login</string>
+    <string name="butuh_bantuan">Butuh bantuan?</string>
+    <string name="cari_nama_siswa">Cari nama siswa</string>
+    <string name="laporan_ananda_ichwan_sholihin">Laporan Ananda Ichwan Sholihin</string>
+    <string name="juli_2025">Juli 2025</string>
+    <string name="pekan_1">Pekan 1</string>
+    <string name="pekan_4">Pekan 4</string>
+    <string name="pekan_2">Pekan 2</string>
+    <string name="pekan_3">Pekan 3</string>
+    <string name="laporan_ibadah_harian">Laporan Ibadah Harian</string>
+    <string name="_7x">7x</string>
+    <string name="lihat_laporan_sebelumnya"><![CDATA[Lihat laporan sebelumnya ->]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="penilaian_pekan_ini">Penilaian pekan ini</string>
+    <string name="a">A</string>
+</resources>
