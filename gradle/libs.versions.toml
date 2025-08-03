@@ -37,7 +37,6 @@ androidx-material = { group = "com.google.android.material", name = "material", 
 github-horizontalcalendar = { group = "io.github.b-sahana", name = "horizontalcalendar", version.ref = "calendar" }
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 
-
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

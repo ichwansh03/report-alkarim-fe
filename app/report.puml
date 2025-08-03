@@ -1,3 +1,27 @@
 @startuml
-Bob-> Alice : "Report"
+entity "Student" as student {
+  + nisn : string
+  nama : string
+  jk : string
+  kelas : string
+}
+
+entity "Class" as class {
+  + id : int
+  nama : string
+  jumlah_siswa : int
+  wali_kelas : string
+}
+
+entity "Teacher" as teacher {
+  + nip : string
+  nama : string
+  kelas : string
+  jk : string
+}
+
+teacher ||--|| class
+teacher ||--o{ student
+student }o--|| class
+
 @enduml

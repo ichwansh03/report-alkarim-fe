@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.fir.declarations.builder.buildField
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -20,6 +22,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            buildConfigField(
+                "String",
+                "SUPABASE_URL",
+                "\"${project.property("SUPABASE_URL")}\""
+            )
+            buildConfigField(
+                "String",
+                "SUPABASE_ANON_KEY",
+                "\"${project.property("SUPABASE_ANON_KEY")}\""
+            )
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(

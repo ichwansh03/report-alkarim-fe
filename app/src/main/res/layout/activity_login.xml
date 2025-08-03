@@ -38,16 +38,16 @@
             app:layout_constraintEnd_toEndOf="parent"/>
 
         <EditText
-            android:id="@+id/name_et"
+            android:id="@+id/password_et"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_shape_outline"
             android:focusableInTouchMode="true"
             android:padding="12dp"
             android:layout_marginTop="20dp"
-            android:autofillHints="name"
-            android:inputType="text"
-            android:hint="@string/nama"
+            android:autofillHints="password"
+            android:inputType="textPassword"
+            android:hint="@string/password"
             app:layout_constraintTop_toBottomOf="@id/id_number_et"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="@string/login"
-            app:layout_constraintTop_toBottomOf="@id/name_et"/>
+            app:layout_constraintTop_toBottomOf="@id/password_et"/>
 
         <TextView
             android:layout_width="wrap_content"
