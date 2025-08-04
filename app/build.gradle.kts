@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.fir.declarations.builder.buildField
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -35,6 +33,16 @@ android {
             )
         }
         release {
+            buildConfigField(
+                "String",
+                "SUPABASE_URL",
+                "\"${project.property("SUPABASE_URL")}\""
+            )
+            buildConfigField(
+                "String",
+                "SUPABASE_ANON_KEY",
+                "\"${project.property("SUPABASE_ANON_KEY")}\""
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -50,6 +58,7 @@ android {
         jvmTarget = "11"
     }
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 }
@@ -70,6 +79,8 @@ dependencies {
     implementation(libs.androidx.material)
     implementation(libs.github.horizontalcalendar)
     implementation(libs.androidx.activity)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
