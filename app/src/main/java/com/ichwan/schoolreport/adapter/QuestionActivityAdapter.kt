@@ -24,7 +24,11 @@ class QuestionActivityAdapter(var context: Context, var activity: List<ActivityR
         parent: ViewGroup,
         viewType: Int
     ): RecyclerView.ViewHolder {
-        val view = LayoutInflater.from(context).inflate(com.ichwan.schoolreport.R.layout.item_checkbox, parent, false)
+        val view = ItemCheckboxBinding.inflate(
+            LayoutInflater.from(context),
+            parent,
+            false
+        ).root
         return QuestionActivityViewHolder(view)
     }
 
@@ -34,7 +38,7 @@ class QuestionActivityAdapter(var context: Context, var activity: List<ActivityR
     ) {
         (holder as QuestionActivityViewHolder).bind(
             activity[position].question,
-            activity[position].action == "1"
+            activity[position].action == false
         )
     }
 

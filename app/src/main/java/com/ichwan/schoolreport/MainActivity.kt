@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val regNumber = intent.getStringExtra("regnumber")
-        if (regNumber.equals("123")) setContentView(R.layout.activity_student)
+        if (regNumber?.equals("123") == true) setContentView(R.layout.activity_student)
         else setContentView(R.layout.activity_teacher)
     }
 }
