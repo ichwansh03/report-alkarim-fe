@@ -1,6 +1,7 @@
-package com.ichwan.schoolreport
+package com.ichwan.schoolreport.util
 
 import android.util.Log
+import com.ichwan.schoolreport.BuildConfig
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
 

@@ -1,4 +1,4 @@
-package com.ichwan.schoolreport
+package com.ichwan.schoolreport.view
 
 import android.content.Intent
 import android.os.Bundle

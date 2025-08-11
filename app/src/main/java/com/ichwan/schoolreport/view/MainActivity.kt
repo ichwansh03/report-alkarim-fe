@@ -1,4 +1,4 @@
-package com.ichwan.schoolreport
+package com.ichwan.schoolreport.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +14,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val regNumber = intent.getStringExtra("regnumber")
-        if (regNumber?.equals("123") == true) setContentView(R.layout.activity_student)
-        else setContentView(R.layout.activity_teacher)
+        if (regNumber?.equals("123") == true) {
+            student = ActivityStudentBinding.inflate(layoutInflater)
+            setContentView(student.root)
+            StudentView.callActivityList(student)
+        }
+        else {
+            teacher = ActivityTeacherBinding.inflate(layoutInflater)
+            setContentView(teacher.root)
+        }
     }
 }

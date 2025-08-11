@@ -1,10 +1,11 @@
-package com.ichwan.schoolreport
+package com.ichwan.schoolreport.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import com.ichwan.schoolreport.R
 
 class ValuationFragment : Fragment() {
 

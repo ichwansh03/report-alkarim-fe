@@ -1,22 +1,33 @@
 package com.ichwan.schoolreport.adapter
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.databinding.ItemCategoryBinding
-import com.ichwan.schoolreport.model.ActivityReport
-import java.util.ArrayList
+import com.ichwan.schoolreport.model.CategoryActivity
 
-class ActivityStudentAdapter(var context: Context, var questions: ArrayList<ActivityReport>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ActivityStudentAdapter(var categories: Array<CategoryActivity>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     class ActivityStudentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         private lateinit var itemCategory: ItemCategoryBinding
 
-        fun bind(context: Context, category: String, questions: List<ActivityReport>) {
+        fun bind(categoryActivity: CategoryActivity, sharedPool: RecyclerView.RecycledViewPool) {
             itemCategory = ItemCategoryBinding.bind(view)
-            itemCategory.categoryTitleTv.text = category
-            itemCategory.listItemQuestionRv.adapter = QuestionActivityAdapter(context, questions)
+            itemCategory.categoryTitleTv.text = categoryActivity.category
+
+            val context = itemCategory.root.context
+            val childLayoutManager = LinearLayoutManager(context)
+            childLayoutManager.initialPrefetchItemCount = 4
+
+            val rv = itemCategory.listItemQuestionRv
+            rv.layoutManager = childLayoutManager
+            rv.adapter = QuestionActivityAdapter(categoryActivity.questions)
+            rv.setRecycledViewPool(sharedPool)
+            rv.setHasFixedSize(true)
+            rv.isNestedScrollingEnabled = false
         }
     }
 
@@ -25,7 +36,7 @@ class ActivityStudentAdapter(var context: Context, var questions: ArrayList<Acti
         viewType: Int
     ): RecyclerView.ViewHolder {
         val view = ItemCategoryBinding.inflate(
-            android.view.LayoutInflater.from(context),
+            android.view.LayoutInflater.from(parent.context),
             parent,
             false
         ).root
@@ -37,14 +48,10 @@ class ActivityStudentAdapter(var context: Context, var questions: ArrayList<Acti
         holder: RecyclerView.ViewHolder,
         position: Int
     ) {
-        (holder as ActivityStudentViewHolder).bind(
-            context,
-            questions[position].category,
-            questions
-        )
+        (holder as ActivityStudentViewHolder).bind(categories[position], viewPool)
     }
 
     override fun getItemCount(): Int {
-        return questions.size
+        return categories.size
     }
 }

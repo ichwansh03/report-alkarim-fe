@@ -3,7 +3,7 @@ package com.ichwan.schoolreport.viewmodel
 import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.ConstantData
+import com.ichwan.schoolreport.util.ConstantData
 import com.ichwan.schoolreport.model.Student
 import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.query.Columns
