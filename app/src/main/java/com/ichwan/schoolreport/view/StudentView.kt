@@ -11,21 +11,21 @@ class StudentView {
     companion object {
         fun callActivityList(binding: ActivityStudentBinding) {
             val prays = arrayOf(
-                ActivityReport("123","Ibadah","Sholat Shubuh",false),
-                ActivityReport("123","Ibadah","Sholat Dzuhur",false),
-                ActivityReport("123","Ibadah","Sholat Ashar",false),
-                ActivityReport("123","Ibadah","Sholat Maghrib",false),
-                ActivityReport("123","Ibadah","Sholat Isya",false)
+                ActivityReport("123","Ibadah","Sholat Shubuh",false, "0"),
+                ActivityReport("123","Ibadah","Sholat Dzuhur",false, "0"),
+                ActivityReport("123","Ibadah","Sholat Ashar",false, "0"),
+                ActivityReport("123","Ibadah","Sholat Maghrib",false, "0"),
+                ActivityReport("123","Ibadah","Sholat Isya",false, "0")
             )
 
             val helper = arrayOf(
-                ActivityReport("123","Membantu Orang Tua","Menyapu",false),
-                ActivityReport("123","Membantu Orang Tua","Membersihkan Tempat Tidur",false)
+                ActivityReport("123","Membantu Orang Tua","Menyapu",false, "0"),
+                ActivityReport("123","Membantu Orang Tua","Membersihkan Tempat Tidur",false, "0")
             )
 
             val categories = arrayOf(
-                CategoryActivity("Ibadah", prays),
-                CategoryActivity("Membantu Orang Tua", helper)
+                CategoryActivity("Ibadah", prays, "0"),
+                CategoryActivity("Membantu Orang Tua", helper, "0")
             )
 
             binding.listReport.layoutManager = LinearLayoutManager(binding.root.context)

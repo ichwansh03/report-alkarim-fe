@@ -24,6 +24,20 @@
                 android:textSize="18sp"
                 android:layout_margin="12dp"/>
 
+            <TextView
+                android:id="@+id/mark_category_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="@string/_7x"
+                android:padding="8dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toEndOf="@id/report_category_tv"
+                android:background="@drawable/bg_shape_rounded"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_item_question_rv"
                 android:layout_width="match_parent"

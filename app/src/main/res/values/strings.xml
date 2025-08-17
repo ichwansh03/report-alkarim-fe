@@ -8,7 +8,7 @@
     <string name="login">Login</string>
     <string name="butuh_bantuan">Butuh bantuan?</string>
     <string name="cari_nama_siswa">Cari nama siswa</string>
-    <string name="laporan_ananda_ichwan_sholihin">Laporan Ananda Ichwan Sholihin</string>
+    <string name="laporan_ananda_ichwan_sholihin">Laporan Ananda %1$s</string>
     <string name="juli_2025">Juli 2025</string>
     <string name="pekan_1">Pekan 1</string>
     <string name="pekan_4">Pekan 4</string>
