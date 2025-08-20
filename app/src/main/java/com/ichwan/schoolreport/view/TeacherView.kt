@@ -3,8 +3,10 @@ package com.ichwan.schoolreport.view
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ichwan.schoolreport.adapter.ListStudentAdapter
 import com.ichwan.schoolreport.adapter.ReportStudentCategoryAdapter
+import com.ichwan.schoolreport.adapter.ValuationCategoryAdapter
 import com.ichwan.schoolreport.databinding.ActivityDetailStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
+import com.ichwan.schoolreport.databinding.FragmentValuationBinding
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.CategoryActivity
 import com.ichwan.schoolreport.model.Student
@@ -46,6 +48,29 @@ class TeacherView {
             binding.reportWeeklyRv.layoutManager = LinearLayoutManager(binding.root.context)
             binding.reportWeeklyRv.adapter = ReportStudentCategoryAdapter(categories)
             binding.reportWeeklyRv.setHasFixedSize(true)
+        }
+
+        fun studentInputActivity(binding: FragmentValuationBinding) {
+            val prays = arrayOf(
+                ActivityReport("123","Ibadah","Sholat Shubuh",false, "7x"),
+                ActivityReport("123","Ibadah","Sholat Dzuhur",false, "7x"),
+                ActivityReport("123","Ibadah","Sholat Ashar",false, "7x"),
+                ActivityReport("123","Ibadah","Sholat Maghrib",false, "7x"),
+                ActivityReport("123","Ibadah","Sholat Isya",false, "7x")
+            )
+
+            val helper = arrayOf(
+                ActivityReport("123","Membantu Orang Tua","Menyapu",false, "3x"),
+                ActivityReport("123","Membantu Orang Tua","Membersihkan Tempat Tidur",false, "2x")
+            )
+
+            val categories = arrayOf(
+                CategoryActivity("Ibadah", prays, "A"),
+                CategoryActivity("Membantu Orang Tua", helper, "B")
+            )
+            binding.inputMarkRv.layoutManager = LinearLayoutManager(binding.root.context)
+            binding.inputMarkRv.adapter = ValuationCategoryAdapter(categories)
+            binding.inputMarkRv.setHasFixedSize(true)
         }
     }
 }

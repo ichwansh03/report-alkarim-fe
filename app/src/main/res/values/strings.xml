@@ -22,9 +22,28 @@
     <string name="penilaian_pekan_ini">Penilaian pekan ini</string>
     <string name="a">A</string>
     <string name="password">Password</string>
+    <string name="buat_target_capaian">Buat Target Capaian</string>
+    <string name="kategori_capaian">Kategori Capaian</string>
+    <string name="pertanyaan">Pertanyaan</string>
+    <string name="kategori_capaian_tx">Kategori Capaian</string>
+    <string name="capaian_untuk_kelas">Capaian untuk kelas</string>
+    <string name="jenis_jawaban">Jenis Jawaban</string>
+    <string name="ceklis">Ceklis</string>
+    <string name="teks">Teks</string>
+    <string name="simpan">Simpan</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
         <item>C</item>
+    </string-array>
+    <string-array name="category">
+        <item>Ibadah</item>
+        <item>Kedisiplinan</item>
+        <item>Membantu Orang Tua</item>
+    </string-array>
+    <string-array name="classes">
+        <item>VII Abu Bakar</item>
+        <item>VIII Umar</item>
+        <item>IX Utsman</item>
     </string-array>
 </resources>

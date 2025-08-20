@@ -1,5 +1,6 @@
 package com.ichwan.schoolreport.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity() {
             teacher = ActivityTeacherBinding.inflate(layoutInflater)
             setContentView(teacher.root)
             TeacherView.callStudentList(teacher)
+            teacher.addQuestionFab.setOnClickListener{
+                val intent = Intent(this, AddQuestionActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 }
