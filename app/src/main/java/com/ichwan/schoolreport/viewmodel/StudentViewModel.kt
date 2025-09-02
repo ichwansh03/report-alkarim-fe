@@ -1,6 +1,5 @@
 package com.ichwan.schoolreport.viewmodel
 
-import androidx.compose.ui.util.fastMap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ichwan.schoolreport.util.ConstantData
@@ -20,7 +19,8 @@ class StudentViewModel : ViewModel() {
                     .select(columns = Columns.raw("nisn"))
                     .decodeList<Student>()
 
-                val nisnList = student.fastMap { it.nisn }
+
+                val nisnList = student.map { it.nisn }
                 onResult(nisnList)
             } catch (e: Exception) {
                 e.printStackTrace()
