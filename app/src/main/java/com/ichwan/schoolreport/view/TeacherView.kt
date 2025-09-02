@@ -16,9 +16,9 @@ class TeacherView {
     companion object {
         fun callStudentList(binding: ActivityTeacherBinding) {
             val students = arrayOf(
-                Student("Ichwan Sholihin","123422","VII Abu Bakar","Laki"),
-                Student("Joko","123421","VII Abu Bakar","Laki"),
-                Student("Agus Tina","123420","VII Abu Bakar","Perempuan")
+                Student("Ichwan Sholihin","123422","VII Abu Bakar","Laki","123"),
+                Student("Joko","123421","VII Abu Bakar","Laki","123"),
+                Student("Agus Tina","123420","VII Abu Bakar","Perempuan","123")
             )
 
             binding.listStudentRv.layoutManager = LinearLayoutManager(binding.root.context)
