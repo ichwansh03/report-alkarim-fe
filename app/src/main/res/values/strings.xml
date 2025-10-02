@@ -2,7 +2,8 @@
     <string name="app_name">SchoolReport</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="laporan_ibadah">Laporan Ibadah</string>
-    <string name="greetings">Assalamualaikum, \nIchwan Sholihin</string>
+    <string name="greetings">Assalamualaikum, 
+Ichwan Sholihin</string>
     <string name="nisn_nip">NISN/NIP</string>
     <string name="nama">Nama</string>
     <string name="login">Login</string>
@@ -31,6 +32,12 @@
     <string name="ceklis">Ceklis</string>
     <string name="teks">Teks</string>
     <string name="simpan">Simpan</string>
+    <string name="register">Register</string>
+    <string name="name">Name</string>
+    <string name="nip_nisn">NIP/NISN</string>
+    <string name="class_room">Class Room</string>
+    <string name="roles">Roles</string>
+    <string name="gender">Gender</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
@@ -45,5 +52,14 @@
         <item>VII Abu Bakar</item>
         <item>VIII Umar</item>
         <item>IX Utsman</item>
+    </string-array>
+    <string-array name="roles_array">
+        <item>Student</item>
+        <item>Teacher</item>
+        <item>Administrator</item>
+    </string-array>
+    <string-array name="gender_array">
+        <item>Male</item>
+        <item>Female</item>
     </string-array>
 </resources>

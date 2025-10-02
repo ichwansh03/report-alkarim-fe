@@ -21,7 +21,7 @@
             android:name=".view.DetailStudentActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".view.AuthActivity"
             android:exported="true"
             android:label="@string/title_activity_login"
             android:theme="@style/Theme.SchoolReport">
