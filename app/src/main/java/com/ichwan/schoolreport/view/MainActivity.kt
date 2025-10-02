@@ -23,20 +23,20 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var student: ActivityStudentBinding
     private lateinit var teacher: ActivityTeacherBinding
-    private lateinit var supabase: SupabaseClient
+    //private lateinit var supabase: SupabaseClient
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        supabase = createSupabaseClient(
+        /*supabase = createSupabaseClient(
             supabaseUrl = BuildConfig.SUPABASE_URL,
             supabaseKey = BuildConfig.SUPABASE_ANON_KEY
         ) {
             install(Postgrest)
-        }
+        }*/
 
-        fetchStudents()
-        fetchTeachers()
+        //fetchStudents()
+        //fetchTeachers()
 
         val regNumber = intent.getStringExtra("regnumber")
         if (regNumber?.equals("123") == true) {
@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun fetchStudents() {
+    /*private fun fetchStudents() {
         CoroutineScope(Dispatchers.IO).launch() {
             try {
                 val students = supabase.from("student").select().decodeList<Student>()
@@ -80,5 +80,5 @@ class MainActivity : AppCompatActivity() {
                 Log.e("MainActivity", "Error fetching teachers: ${e.message}")
             }
         }
-    }
+    }*/
 }
