@@ -2,9 +2,15 @@ package com.ichwan.schoolreport.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
+import com.ichwan.schoolreport.model.LoginRequest
+import com.ichwan.schoolreport.model.User
+import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
 
@@ -18,8 +24,28 @@ class AuthActivity : AppCompatActivity() {
         setContentView(registerBinding.root)
 
         registerBinding.saveBtn.setOnClickListener {
-            // Add registration logic here
-            showLoginScreen()
+            val name = registerBinding.nameEditText.text.toString()
+            val regNumber = registerBinding.regnumberEditText.text.toString()
+            val room = registerBinding.roomEditText.text.toString()
+            val roles = registerBinding.rolesSpinner.selectedItem.toString()
+            val gender = registerBinding.genderSpinner.selectedItem.toString()
+            val password = registerBinding.passwordEditText.text.toString()
+
+            val user = User(name, regNumber, room, roles, gender, password)
+
+            lifecycleScope.launch {
+                try {
+                    val response = ApiClient.instance.register(user)
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@AuthActivity, "Registration successful", Toast.LENGTH_SHORT).show()
+                        showLoginScreen()
+                    } else {
+                        Toast.makeText(this@AuthActivity, "Registration failed", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
@@ -28,9 +54,30 @@ class AuthActivity : AppCompatActivity() {
         setContentView(loginBinding.root)
 
         loginBinding.loginBtn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("regnumber", loginBinding.idNumberEt.text.toString())
-            startActivity(intent)
+            val regNumber = loginBinding.idNumberEt.text.toString()
+            val password = loginBinding.passwordEt.text.toString()
+
+            val loginRequest = LoginRequest(regNumber, password)
+
+            lifecycleScope.launch {
+                try {
+                    val response = ApiClient.instance.login(loginRequest)
+                    if (response.isSuccessful) {
+                        val loginResponse = response.body()
+                        if (loginResponse != null) {
+                            ApiClient.authInterceptor.setToken(loginResponse.token)
+                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                            intent.putExtra("regnumber", loginResponse.regnumber)
+                            startActivity(intent)
+                            finish()
+                        }
+                    } else {
+                        Toast.makeText(this@AuthActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
         loginBinding.registerBtn.setOnClickListener {
