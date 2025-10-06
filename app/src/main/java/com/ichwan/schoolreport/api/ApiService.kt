@@ -1,7 +1,7 @@
 package com.ichwan.schoolreport.api
 
-import com.ichwan.schoolreport.model.LoginRequest
-import com.ichwan.schoolreport.model.LoginResponse
+import com.ichwan.schoolreport.dto.LoginRequest
+import com.ichwan.schoolreport.dto.LoginResponse
 import com.ichwan.schoolreport.model.User
 import retrofit2.Response
 import retrofit2.http.Body
