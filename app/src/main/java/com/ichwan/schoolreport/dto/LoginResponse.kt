@@ -1,4 +1,4 @@
-package com.ichwan.schoolreport.model
+package com.ichwan.schoolreport.dto
 
 data class LoginResponse(
     val regnumber: String,

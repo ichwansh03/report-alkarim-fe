@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.databinding.ItemStudentBinding
-import com.ichwan.schoolreport.model.Student
 import com.ichwan.schoolreport.view.DetailStudentActivity
 
 class ListStudentAdapter(var students: Array<Student>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

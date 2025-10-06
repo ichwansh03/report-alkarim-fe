@@ -23,7 +23,6 @@ class ValuationFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        TeacherView.studentInputActivity(binding)
     }
 
 }

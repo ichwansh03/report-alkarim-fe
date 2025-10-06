@@ -17,8 +17,6 @@ class DetailStudentActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         binding.greetingDetailStudentTv.text = getString(R.string.laporan_ananda_ichwan_sholihin, name)
 
-        TeacherView.callStudentReport(binding)
-
         binding.inputValuationFab.setOnClickListener{
             supportFragmentManager.beginTransaction().replace(R.id.fragment_valuation_container,
                 ValuationFragment()).commit()
