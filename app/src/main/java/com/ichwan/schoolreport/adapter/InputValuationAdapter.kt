@@ -19,7 +19,7 @@ class InputValuationAdapter(var report: Array<ActivityReport>) : RecyclerView.Ad
             val adapter = binding.valueItemsSp.adapter
             var position = 0
             for (i in 0..adapter.count - 1) {
-                if (adapter.getItem(i).toString() == item.mark) {
+                if (adapter.getItem(i).toString() == item.score) {
                     position = i
                     break
                 }
@@ -34,7 +34,7 @@ class InputValuationAdapter(var report: Array<ActivityReport>) : RecyclerView.Ad
                     pos: Int,
                     id: Long
                 ) {
-                    item.mark = parent.getItemAtPosition(pos).toString()
+                    item.score = parent.getItemAtPosition(pos).toString()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>) {}
