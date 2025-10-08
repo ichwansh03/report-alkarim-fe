@@ -15,7 +15,7 @@ class ReportStudentAdapter(var report: Array<ActivityReport>) : RecyclerView.Ada
         fun bind(item: ActivityReport) {
             binding = ItemReportWeeklyValueBinding.bind(view)
             binding.reportQuestionTv.text = item.question
-            binding.markActivityTv.text = item.mark
+            binding.markActivityTv.text = item.score
         }
     }
 
