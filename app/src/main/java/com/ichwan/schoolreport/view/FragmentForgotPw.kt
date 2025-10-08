@@ -1,12 +1,16 @@
-
 package com.ichwan.schoolreport.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.FragmentForgotPwBinding
+import com.ichwan.schoolreport.dto.LoginRequest
+import kotlinx.coroutines.launch
 
 class FragmentForgotPw : Fragment() {
 
@@ -25,7 +29,35 @@ class FragmentForgotPw : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.resetPasswordBtn.setOnClickListener {
-            parentFragmentManager.popBackStack()
+            val regNumber = binding.regNumberEt.text.toString().trim()
+            val newPassword = binding.newPasswordEt.text.toString().trim()
+            val confirmPassword = binding.confirmNewPasswordEt.text.toString().trim()
+
+            if (regNumber.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if (newPassword != confirmPassword) {
+                Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val loginRequest = LoginRequest(regNumber, newPassword)
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                try {
+                    val response = ApiClient.instance.updatePassword(loginRequest)
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
+                    } else {
+                        Toast.makeText(requireContext(), "Failed to update password", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(requireContext(), "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 

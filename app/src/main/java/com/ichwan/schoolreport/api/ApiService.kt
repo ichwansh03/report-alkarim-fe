@@ -15,7 +15,7 @@ interface ApiService {
     suspend fun register(@Body user: User): Response<Void>
 
     @PUT("auth/update")
-    suspend fun update(@Body user: User): Response<Void>
+    suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
 
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>

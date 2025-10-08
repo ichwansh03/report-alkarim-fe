@@ -16,7 +16,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showRegisterScreen()
+        showLoginScreen()
     }
 
     private fun showRegisterScreen() {
