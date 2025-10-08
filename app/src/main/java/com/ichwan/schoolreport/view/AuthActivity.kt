@@ -83,5 +83,12 @@ class AuthActivity : AppCompatActivity() {
         loginBinding.registerBtn.setOnClickListener {
             showRegisterScreen()
         }
+        
+        loginBinding.forgotPwTv.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .add(android.R.id.content, FragmentForgotPw())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }

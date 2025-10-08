@@ -6,17 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.databinding.ItemStudentBinding
+import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.view.DetailStudentActivity
 
-class ListStudentAdapter(var students: Array<Student>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListStudentAdapter(var students: Array<User>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     class ListStudentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         private lateinit var studentItem: ItemStudentBinding
-        fun bind(student: Student) {
+        fun bind(student: User) {
             studentItem = ItemStudentBinding.bind(view)
             studentItem.nameTv.text = student.name
-            studentItem.classTv.text = student.className
+            studentItem.classTv.text = student.room
             studentItem.studentItemCv.setOnClickListener{
                 val context = view.context
                 val intent = Intent(context, DetailStudentActivity::class.java)
