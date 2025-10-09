@@ -8,7 +8,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
-import com.ichwan.schoolreport.dto.LoginRequest
+import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
 import kotlinx.coroutines.launch
 
@@ -16,7 +16,7 @@ class AuthActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showRegisterScreen()
+        showLoginScreen()
     }
 
     private fun showRegisterScreen() {
