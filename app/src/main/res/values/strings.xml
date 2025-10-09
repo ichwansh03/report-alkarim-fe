@@ -43,6 +43,7 @@ Ichwan Sholihin</string>
     <string name="confirm_new_password">Confirm New Password</string>
     <string name="reset_password">Reset Password</string>
     <string name="tambah_kategori">Tambah Kategori</string>
+    <string name="nama_kategori_baru">Nama Kategori Baru</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>

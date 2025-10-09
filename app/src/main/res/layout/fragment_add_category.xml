@@ -9,7 +9,7 @@
         android:id="@+id/category_name_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nama Kategori Baru"
+        android:hint="@string/nama_kategori_baru"
         android:inputType="text"
         android:autofillHints="name" />
 

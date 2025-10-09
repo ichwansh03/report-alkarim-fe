@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.FragmentForgotPwBinding
-import com.ichwan.schoolreport.dto.LoginRequest
+import com.ichwan.schoolreport.model.LoginRequest
 import kotlinx.coroutines.launch
 
 class FragmentForgotPw : Fragment() {
