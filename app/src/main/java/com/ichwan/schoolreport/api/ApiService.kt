@@ -4,6 +4,7 @@ import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.LoginResponse
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.CategoryActivity
+import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,4 +26,7 @@ interface ApiService {
 
     @POST("/categories/create")
     suspend fun createCategory(@Body category: CategoryActivity): Response<Void>
+
+    @POST("/questions/create")
+    suspend fun createQuestion(@Body question: Question): Response<Void>
 }

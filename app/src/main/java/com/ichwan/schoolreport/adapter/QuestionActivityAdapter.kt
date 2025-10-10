@@ -16,7 +16,7 @@ class QuestionActivityAdapter(var activity: Array<ActivityReport>) : RecyclerVie
             itemActivity = ItemCheckboxBinding.bind(view)
             itemActivity.questionTv.text = item.question
             itemActivity.questionCb.setOnCheckedChangeListener(null)
-            itemActivity.questionCb.isChecked = item.action
+            //itemActivity.questionCb.isChecked = item.answer
             val pos = bindingAdapterPosition
             itemActivity.questionCb.setOnCheckedChangeListener { _, isChecked ->
                 onCheckedChanged(pos, isChecked)
@@ -43,7 +43,7 @@ class QuestionActivityAdapter(var activity: Array<ActivityReport>) : RecyclerVie
         val item = activity[position]
         (holder as QuestionActivityViewHolder).bind(item) { adapterPos, isChecked ->
             if (adapterPos != RecyclerView.NO_POSITION) {
-                activity[adapterPos].action = isChecked
+                //activity[adapterPos].action = isChecked
                 notifyItemChanged(adapterPos)
             }
         }
