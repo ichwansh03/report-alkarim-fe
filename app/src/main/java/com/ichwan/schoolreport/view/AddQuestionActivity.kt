@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityAddQuestionBinding
-import com.ichwan.schoolreport.model.ActivityReport
+import com.ichwan.schoolreport.model.Question
 import kotlinx.coroutines.launch
 
 class AddQuestionActivity : AppCompatActivity() {
@@ -24,44 +24,44 @@ class AddQuestionActivity : AppCompatActivity() {
         }
 
         binding.saveBtn.setOnClickListener {
-            saveReport()
-        }
-    }
+            val category = binding.categorySp.selectedItem.toString()
+            val questionText = binding.questionEt.text.toString().trim()
+            val target = binding.classSp.selectedItem.toString()
+            val option = when {
+                binding.checklistRb.isChecked -> "Checkbox"
+                binding.freeTextRb.isChecked -> "Text"
+                else -> ""
+            }
 
-    private fun saveReport() {
-        val category = binding.categorySp.selectedItem.toString()
-        val question = binding.questionEt.text.toString()
-        val isChecklist = binding.checklistRb.isChecked
+            if (questionText.isEmpty()) {
+                Toast.makeText(this, "Question cannot be empty", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-        // Assuming 'nip' and 'score' are not collected from this screen.
-        // You'll need to provide actual values for these.
-        val nip = ""
-        val score = ""
+            if (option.isEmpty()) {
+                Toast.makeText(this, "Please select an answer type", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-        if (question.isEmpty()) {
-            Toast.makeText(this, "Question cannot be empty", Toast.LENGTH_SHORT).show()
-            return
-        }
+            val question = Question(
+                quest = questionText,
+                category = category,
+                target = target,
+                option = option
+            )
 
-        val report = ActivityReport(
-            nip = nip,
-            category = category,
-            question = question,
-            answer = "",
-            score = score
-        )
-
-        lifecycleScope.launch {
-            try {
-                val response = ApiClient.instance.createReport(report)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@AddQuestionActivity, "Report saved successfully", Toast.LENGTH_SHORT).show()
-                    finish() // Close the activity after saving
-                } else {
-                    Toast.makeText(this@AddQuestionActivity, "Failed to save report: ${response.message()}", Toast.LENGTH_SHORT).show()
+            lifecycleScope.launch {
+                try {
+                    val response = ApiClient.instance.createQuestion(question)
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@AddQuestionActivity, "Question created successfully", Toast.LENGTH_SHORT).show()
+                        finish()
+                    } else {
+                        Toast.makeText(this@AddQuestionActivity, "Failed to create question: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    Toast.makeText(this@AddQuestionActivity, "Error: ${e.message}", Toast.LENGTH_LONG).show()
                 }
-            } catch (e: Exception) {
-                Toast.makeText(this@AddQuestionActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
     }
