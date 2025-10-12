@@ -8,8 +8,10 @@ import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.User
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
+import retrofit2.http.Path
 
 interface ApiService {
     @POST("auth/register")
@@ -17,6 +19,12 @@ interface ApiService {
 
     @PUT("auth/update")
     suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
+
+    @GET("auth/class/{class}/roles/{roles}")
+    suspend fun getUsersByClassAndRoles(
+        @Path("class") classValue: String,
+        @Path("roles") roles: String
+    ): Response<List<User>>
 
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
@@ -29,4 +37,10 @@ interface ApiService {
 
     @POST("/questions/create")
     suspend fun createQuestion(@Body question: Question): Response<Void>
+
+    @GET("questions/target/{target}")
+    suspend fun getQuestionsByTarget(@Path("target") target: String): Response<List<Question>>
+
+    @GET("questions/category/{category}")
+    suspend fun getQuestionsByCategory(@Path("category") category: String): Response<List<Question>>
 }
