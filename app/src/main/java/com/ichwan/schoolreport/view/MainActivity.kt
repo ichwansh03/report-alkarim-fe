@@ -1,38 +1,63 @@
 package com.ichwan.schoolreport.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-
-    private lateinit var student: ActivityStudentBinding
-    private lateinit var teacher: ActivityTeacherBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val regNumber = intent.getStringExtra("regnumber")
-        if (regNumber?.equals("123") == true) {
-            student = ActivityStudentBinding.inflate(layoutInflater)
-            setContentView(student.root)
-            student.horizontalCalendar.setOnDateSelectListener{ selectedDate ->
-                Toast.makeText(applicationContext, "Date: ${selectedDate.day} - ${selectedDate.month} - ${selectedDate.year}",
-                    Toast.LENGTH_SHORT).show()
 
-            }
+        if (regNumber.isNullOrEmpty()) {
+            Toast.makeText(this, "Registration number not found.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
-        else {
-            teacher = ActivityTeacherBinding.inflate(layoutInflater)
-            setContentView(teacher.root)
-            teacher.addQuestionFab.setOnClickListener{
-                val intent = Intent(this, AddQuestionActivity::class.java)
-                startActivity(intent)
+
+        lifecycleScope.launch {
+            try {
+                val response = ApiClient.instance.getUserByRegNumber(regNumber)
+                if (response.isSuccessful) {
+                    val roles = response.body()?.roles
+                    if (roles != null) {
+                        when (roles) {
+                            "student" -> {
+                                val binding = ActivityStudentBinding.inflate(layoutInflater)
+                                setContentView(binding.root)
+                                val controller = StudentController(this@MainActivity, binding)
+                                controller.setupView()
+                            }
+                            "teacher" -> {
+                                val binding = ActivityTeacherBinding.inflate(layoutInflater)
+                                setContentView(binding.root)
+                                val controller = TeacherController(this@MainActivity, binding)
+                                controller.setupView()
+                            }
+                            else -> {
+                                Toast.makeText(applicationContext, "Unknown role: $roles", Toast.LENGTH_SHORT).show()
+                                finish()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(applicationContext, "User not found", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                } else {
+                    Toast.makeText(applicationContext, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(applicationContext, "Failure: ${e.message}", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
-
 }

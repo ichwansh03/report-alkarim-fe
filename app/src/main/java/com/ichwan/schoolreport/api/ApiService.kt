@@ -26,6 +26,9 @@ interface ApiService {
         @Path("roles") roles: String
     ): Response<List<User>>
 
+    @GET("auth/user/{regnumber}")
+    suspend fun getUserByRegNumber(@Path("regnumber") regNumber: String): Response<User>
+
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
