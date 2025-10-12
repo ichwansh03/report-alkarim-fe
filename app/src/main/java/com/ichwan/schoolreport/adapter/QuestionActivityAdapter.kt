@@ -5,51 +5,57 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.databinding.ItemCheckboxBinding
-import com.ichwan.schoolreport.model.ActivityReport
+import com.ichwan.schoolreport.databinding.ItemTextBinding
+import com.ichwan.schoolreport.model.Question
 
-class QuestionActivityAdapter(var activity: Array<ActivityReport>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class QuestionActivityAdapter(private var questions: List<Question>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class QuestionActivityViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-        private lateinit var itemActivity: ItemCheckboxBinding
+    companion object {
+        private const val VIEW_TYPE_CHECKBOX = 1
+        private const val VIEW_TYPE_TEXT = 2
+    }
 
-        fun bind(item: ActivityReport, onCheckedChanged: (Int, Boolean) -> Unit) {
-            itemActivity = ItemCheckboxBinding.bind(view)
-            itemActivity.questionTv.text = item.question
-            itemActivity.questionCb.setOnCheckedChangeListener(null)
-            //itemActivity.questionCb.isChecked = item.answer
-            val pos = bindingAdapterPosition
-            itemActivity.questionCb.setOnCheckedChangeListener { _, isChecked ->
-                onCheckedChanged(pos, isChecked)
-            }
+    override fun getItemViewType(position: Int): Int {
+        return when (questions[position].option) {
+            "TRUE_FALSE" -> VIEW_TYPE_CHECKBOX
+            "DESCRIPTIVE" -> VIEW_TYPE_TEXT
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): RecyclerView.ViewHolder {
-        val view = ItemCheckboxBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        ).root
-        return QuestionActivityViewHolder(view)
-    }
-
-    override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
-        position: Int
-    ) {
-        val item = activity[position]
-        (holder as QuestionActivityViewHolder).bind(item) { adapterPos, isChecked ->
-            if (adapterPos != RecyclerView.NO_POSITION) {
-                //activity[adapterPos].action = isChecked
-                notifyItemChanged(adapterPos)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            VIEW_TYPE_CHECKBOX -> {
+                val binding = ItemCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                CheckboxViewHolder(binding)
             }
+            VIEW_TYPE_TEXT -> {
+                val binding = ItemTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                TextViewHolder(binding)
+            }
+            else -> throw IllegalArgumentException("Invalid view type")
         }
     }
 
-    override fun getItemCount(): Int {
-        return activity.size
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val question = questions[position]
+        when (holder) {
+            is CheckboxViewHolder -> holder.bind(question)
+            is TextViewHolder -> holder.bind(question)
+        }
+    }
+
+    override fun getItemCount(): Int = questions.size
+
+    inner class CheckboxViewHolder(private val binding: ItemCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(question: Question) {
+            binding.questionTv.text = question.quest
+        }
+    }
+
+    inner class TextViewHolder(private val binding: ItemTextBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(question: Question) {
+            binding.questionTv.text = question.quest
+        }
     }
 }
