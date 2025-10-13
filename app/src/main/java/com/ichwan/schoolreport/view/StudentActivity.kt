@@ -3,7 +3,7 @@ package com.ichwan.schoolreport.view
 import android.widget.Toast
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 
-class StudentController(
+class StudentActivity(
     private val activity: MainActivity,
     private val binding: ActivityStudentBinding
 ) {

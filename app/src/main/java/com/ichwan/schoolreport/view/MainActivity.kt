@@ -26,23 +26,21 @@ class MainActivity : AppCompatActivity() {
             try {
                 val response = ApiClient.instance.getUserByRegNumber(regNumber)
                 if (response.isSuccessful) {
-                    val roles = response.body()?.roles
-                    if (roles != null) {
-                        when (roles) {
+                    val user = response.body()
+                    if (user != null) {
+                        when (user.roles) {
                             "student" -> {
                                 val binding = ActivityStudentBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                val controller = StudentController(this@MainActivity, binding)
-                                controller.setupView()
+                                StudentActivity(this@MainActivity, binding)
                             }
                             "teacher" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                val controller = TeacherController(this@MainActivity, binding)
-                                controller.setupView()
+                                TeacherActivity(this@MainActivity, binding, user.room)
                             }
                             else -> {
-                                Toast.makeText(applicationContext, "Unknown role: $roles", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(applicationContext, "Unknown role: ${user.roles}", Toast.LENGTH_SHORT).show()
                                 finish()
                             }
                         }
@@ -51,11 +49,11 @@ class MainActivity : AppCompatActivity() {
                         finish()
                     }
                 } else {
-                    Toast.makeText(applicationContext, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "Error fetching user data: ${response.message()}", Toast.LENGTH_SHORT).show()
                     finish()
                 }
             } catch (e: Exception) {
-                Toast.makeText(applicationContext, "Failure: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "Network request failed: ${e.message}", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }

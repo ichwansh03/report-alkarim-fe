@@ -5,11 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ichwan.schoolreport.R
 import com.ichwan.schoolreport.databinding.ItemStudentBinding
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.view.DetailStudentActivity
 
-class ListStudentAdapter(var students: Array<User>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class ListStudentAdapter(var students: List<User>) : RecyclerView.Adapter<ListStudentAdapter.ListStudentViewHolder>() {
 
     class ListStudentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -18,10 +19,17 @@ class ListStudentAdapter(var students: Array<User>) : RecyclerView.Adapter<Recyc
             studentItem = ItemStudentBinding.bind(view)
             studentItem.nameTv.text = student.name
             studentItem.classTv.text = student.room
+
+            if (student.gender.equals("boy", ignoreCase = true)) {
+                studentItem.avatarImg.setImageResource(R.drawable.icon_boy)
+            } else {
+                studentItem.avatarImg.setImageResource(R.drawable.icon_girl)
+            }
+
             studentItem.studentItemCv.setOnClickListener{
                 val context = view.context
                 val intent = Intent(context, DetailStudentActivity::class.java)
-                intent.putExtra("name", student.name)
+                intent.putExtra("regnumber", student.regnumber)
                 context.startActivity(intent)
             }
         }
@@ -30,16 +38,16 @@ class ListStudentAdapter(var students: Array<User>) : RecyclerView.Adapter<Recyc
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerView.ViewHolder {
+    ): ListStudentViewHolder {
         val item = ItemStudentBinding.inflate(LayoutInflater.from(parent.context), parent, false).root
         return ListStudentViewHolder(item)
     }
 
     override fun onBindViewHolder(
-        holder: RecyclerView.ViewHolder,
+        holder: ListStudentViewHolder,
         position: Int
     ) {
-        (holder as ListStudentViewHolder).bind(students[position])
+        holder.bind(students[position])
     }
 
     override fun getItemCount(): Int {
