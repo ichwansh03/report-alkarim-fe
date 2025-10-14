@@ -2,12 +2,22 @@ package com.ichwan.schoolreport.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.CompoundButton
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ItemCheckboxBinding
 import com.ichwan.schoolreport.databinding.ItemTextBinding
+import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.Question
+import com.ichwan.schoolreport.model.User
+import kotlinx.coroutines.launch
 
-class QuestionActivityAdapter(private var questions: List<Question>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class QuestionActivityAdapter(
+    private var questions: List<Question>,
+    private val student: User,
+    private val lifecycleScope: androidx.lifecycle.LifecycleCoroutineScope
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         private const val VIEW_TYPE_CHECKBOX = 1
@@ -25,11 +35,13 @@ class QuestionActivityAdapter(private var questions: List<Question>) : RecyclerV
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_CHECKBOX -> {
-                val binding = ItemCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    ItemCheckboxBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 CheckboxViewHolder(binding)
             }
             VIEW_TYPE_TEXT -> {
-                val binding = ItemTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+                val binding =
+                    ItemTextBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                 TextViewHolder(binding)
             }
             else -> throw IllegalArgumentException("Invalid view type")
@@ -46,15 +58,42 @@ class QuestionActivityAdapter(private var questions: List<Question>) : RecyclerV
 
     override fun getItemCount(): Int = questions.size
 
-    inner class CheckboxViewHolder(private val binding: ItemCheckboxBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CheckboxViewHolder(private val binding: ItemCheckboxBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(question: Question) {
             binding.questionTv.text = question.quest
+            binding.questionCb.setOnCheckedChangeListener { _, isChecked ->
+                saveAnswer(question, isChecked.toString())
+            }
         }
     }
 
-    inner class TextViewHolder(private val binding: ItemTextBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class TextViewHolder(private val binding: ItemTextBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun bind(question: Question) {
             binding.questionTv.text = question.quest
+            binding.answerEt.setOnFocusChangeListener { _, hasFocus ->
+                if (!hasFocus) {
+                    saveAnswer(question, binding.answerEt.text.toString())
+                }
+            }
+        }
+    }
+
+    private fun saveAnswer(question: Question, answer: String) {
+        lifecycleScope.launch {
+            try {
+                val report = ActivityReport(
+                    nip = student.regnumber,
+                    category = question.category,
+                    question = question.quest,
+                    answer = answer,
+                    score = ""
+                )
+                ApiClient.instance.createReport(report)
+            } catch (e: Exception) {
+                // Handle error
+            }
         }
     }
 }
