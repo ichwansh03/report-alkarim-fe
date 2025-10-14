@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity() {
                             "student" -> {
                                 val binding = ActivityStudentBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                StudentActivity(this@MainActivity, binding)
+                                StudentActivity(this@MainActivity, binding, user)
                             }
                             "teacher" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
