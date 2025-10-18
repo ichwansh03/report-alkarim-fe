@@ -32,16 +32,6 @@ android {
             )
         }
         release {
-            buildConfigField(
-                "String",
-                "SUPABASE_URL",
-                "\"${project.property("SUPABASE_URL")}\""
-            )
-            buildConfigField(
-                "String",
-                "SUPABASE_ANON_KEY",
-                "\"${project.property("SUPABASE_ANON_KEY")}\""
-            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
