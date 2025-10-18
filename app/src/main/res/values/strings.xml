@@ -44,6 +44,9 @@ Ichwan Sholihin</string>
     <string name="reset_password">Reset Password</string>
     <string name="tambah_kategori">Tambah Kategori</string>
     <string name="nama_kategori_baru">Nama Kategori Baru</string>
+    <string name="kelas">Kelas</string>
+    <string name="laki_laki">Laki-laki</string>
+    <string name="perempuan">Perempuan</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>

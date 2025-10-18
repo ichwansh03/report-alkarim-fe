@@ -1,56 +1,42 @@
 package com.ichwan.schoolreport.adapter
 
-import android.content.Intent
+import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.R
 import com.ichwan.schoolreport.databinding.ItemStudentBinding
 import com.ichwan.schoolreport.model.User
-import com.ichwan.schoolreport.view.DetailStudentActivity
 
-class ListStudentAdapter(var students: List<User>) : RecyclerView.Adapter<ListStudentAdapter.ListStudentViewHolder>() {
+class ListStudentAdapter(
+    private val context: Context,
+    private var users: MutableList<User>,
+    private val onItemClick: (User) -> Unit
+) : RecyclerView.Adapter<ListStudentAdapter.ListStudentViewHolder>() {
 
-    class ListStudentViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
-
-        private lateinit var studentItem: ItemStudentBinding
-        fun bind(student: User) {
-            studentItem = ItemStudentBinding.bind(view)
-            studentItem.nameTv.text = student.name
-            studentItem.classTv.text = student.room
-
-            if (student.gender.equals("boy", ignoreCase = true)) {
-                studentItem.avatarImg.setImageResource(R.drawable.icon_boy)
-            } else {
-                studentItem.avatarImg.setImageResource(R.drawable.icon_girl)
-            }
-
-            studentItem.studentItemCv.setOnClickListener{
-                val context = view.context
-                val intent = Intent(context, DetailStudentActivity::class.java)
-                intent.putExtra("regnumber", student.regnumber)
-                context.startActivity(intent)
-            }
+    inner class ListStudentViewHolder(private val binding: ItemStudentBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(user: User) {
+            binding.nameTv.text = user.name
+            binding.classTv.text = user.room
+            binding.avatarImg.setImageResource(R.drawable.account_circle) // Menggunakan ikon generik
+            binding.root.setOnClickListener { onItemClick(user) }
         }
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ListStudentViewHolder {
-        val item = ItemStudentBinding.inflate(LayoutInflater.from(parent.context), parent, false).root
-        return ListStudentViewHolder(item)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListStudentViewHolder {
+        val binding = ItemStudentBinding.inflate(LayoutInflater.from(context), parent, false)
+        return ListStudentViewHolder(binding)
     }
 
-    override fun onBindViewHolder(
-        holder: ListStudentViewHolder,
-        position: Int
-    ) {
-        holder.bind(students[position])
+    override fun onBindViewHolder(holder: ListStudentViewHolder, position: Int) {
+        holder.bind(users[position])
     }
 
-    override fun getItemCount(): Int {
-        return students.size
+    override fun getItemCount(): Int = users.size
+
+    fun updateData(newUsers: List<User>) {
+        users.clear()
+        users.addAll(newUsers)
+        notifyDataSetChanged()
     }
 }
