@@ -29,8 +29,11 @@ interface ApiService {
     @GET("auth/user/{regnumber}")
     suspend fun getUserByRegNumber(@Path("regnumber") regNumber: String): Response<User>
 
-    @GET("auth/roles/{roles}")
-    suspend fun getUsersByRoles(@Path("roles") roles: String): Response<List<User>>
+    @GET("auth/roles/{role}")
+    suspend fun getUsersByRole(@Path("role") role: String): Response<List<User>>
+
+    @PUT("auth/user/{regnumber}")
+    suspend fun updateUser(@Path("regnumber") regNumber: String, @Body user: User): Response<Void>
 
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
