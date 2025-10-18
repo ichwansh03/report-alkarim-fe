@@ -29,6 +29,9 @@ interface ApiService {
     @GET("auth/user/{regnumber}")
     suspend fun getUserByRegNumber(@Path("regnumber") regNumber: String): Response<User>
 
+    @GET("auth/roles/{roles}")
+    suspend fun getUsersByRoles(@Path("roles") roles: String): Response<List<User>>
+
     @POST("auth/login")
     suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
@@ -46,4 +49,10 @@ interface ApiService {
 
     @GET("questions/category/{category}")
     suspend fun getQuestionsByCategory(@Path("category") category: String): Response<List<Question>>
+
+    @GET("questions/category/{category}/target/{target}")
+    suspend fun getQuestionsByCategoryAndTarget(
+        @Path("category") category: String,
+        @Path("target") target: String
+    ): Response<List<Question>>
 }
