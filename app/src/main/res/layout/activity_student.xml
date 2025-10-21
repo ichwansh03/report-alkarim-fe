@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:text="@string/greetings"
             android:textSize="18sp"
+            android:fontFamily="@font/montserrat_semibold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

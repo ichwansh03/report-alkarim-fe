@@ -8,6 +8,7 @@
         android:id="@+id/category_valuation_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/laporan_ibadah" />
 
     <androidx.recyclerview.widget.RecyclerView

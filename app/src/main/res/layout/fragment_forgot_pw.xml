@@ -11,6 +11,8 @@
         android:id="@+id/reg_number_et"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="registerNumber"
+        android:fontFamily="@font/montserrat_regular"
         android:hint="@string/nip_nisn"
         android:inputType="number" />
 
@@ -19,6 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:autofillHints="newPassword"
         android:hint="@string/new_password"
         android:inputType="textPassword" />
 
@@ -27,6 +31,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:fontFamily="@font/montserrat_regular"
+        android:autofillHints="confirmPassword"
         android:hint="@string/confirm_new_password"
         android:inputType="textPassword" />
 
@@ -35,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/reset_password" />
 
 </LinearLayout>

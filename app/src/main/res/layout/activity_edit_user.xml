@@ -9,6 +9,9 @@
         android:id="@+id/edit_regnumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autofillHints="NIP/NISN"
+        android:inputType="number"
+        android:fontFamily="@font/montserrat_regular"
         android:hint="@string/nip_nisn" />
 
     <EditText
@@ -16,6 +19,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints="name"
+        android:inputType="textPersonName"
+        android:fontFamily="@font/montserrat_regular"
         android:hint="@string/nama" />
 
     <EditText
@@ -23,6 +29,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:autofillHints="class"
+        android:inputType="text"
+        android:fontFamily="@font/montserrat_regular"
         android:hint="@string/kelas" />
 
     <RadioGroup
@@ -36,6 +45,7 @@
             android:id="@+id/male_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_regular"
             android:text="@string/laki_laki" />
 
         <RadioButton
@@ -43,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:fontFamily="@font/montserrat_regular"
             android:text="@string/perempuan" />
     </RadioGroup>
 
@@ -52,6 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/montserrat_semibold"
         android:text="@string/simpan" />
 
 </LinearLayout>
