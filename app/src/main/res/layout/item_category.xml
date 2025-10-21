@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:text="@string/laporan_ibadah"
         android:textSize="18sp"
+        android:fontFamily="@font/montserrat_semibold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 

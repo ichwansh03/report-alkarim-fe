@@ -21,7 +21,8 @@ tools:context=".view.MainActivity">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/greetings"
-        android:textSize="20sp"
+        android:textSize="18sp"
+        android:fontFamily="@font/montserrat_semibold"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/navigation_bar"/>
 
@@ -34,6 +35,7 @@ tools:context=".view.MainActivity">
         android:padding="12dp"
         android:layout_marginTop="20dp"
         android:autofillHints="name"
+        android:fontFamily="@font/montserrat_regular"
         android:inputType="textPersonName"
         android:hint="@string/cari_nama_siswa"
         app:layout_constraintTop_toBottomOf="@id/greeting_tv"

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/nama_kategori_baru"
         android:inputType="text"
+        android:fontFamily="@font/montserrat_regular"
         android:autofillHints="name" />
 
     <Button
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="10dp"
-        android:text="Simpan" />
+        android:fontFamily="@font/montserrat_semibold"
+        android:text="@string/simpan" />
 
 </LinearLayout>
