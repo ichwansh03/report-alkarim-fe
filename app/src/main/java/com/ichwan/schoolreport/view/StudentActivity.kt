@@ -37,8 +37,12 @@ class StudentActivity(
                         binding.listReport.layoutManager = LinearLayoutManager(activity)
                     }
                 }
+                else {
+                    Toast.makeText(activity, "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
+                }
             } catch (e: Exception) {
                 // Handle error
+                e.printStackTrace()
             }
         }
     }

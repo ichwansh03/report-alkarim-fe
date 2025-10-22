@@ -19,7 +19,7 @@ class ListStudentAdapter(
         fun bind(user: User) {
             binding.nameTv.text = user.name
             binding.classTv.text = user.room
-            binding.avatarImg.setImageResource(R.drawable.account_circle) // Menggunakan ikon generik
+            binding.avatarImg.setImageResource(R.drawable.account_circle)
             binding.root.setOnClickListener { onItemClick(user) }
         }
     }
