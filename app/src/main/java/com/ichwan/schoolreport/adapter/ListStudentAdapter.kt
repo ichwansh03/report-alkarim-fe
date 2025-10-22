@@ -1,5 +1,6 @@
 package com.ichwan.schoolreport.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -34,6 +35,7 @@ class ListStudentAdapter(
 
     override fun getItemCount(): Int = users.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun updateData(newUsers: List<User>) {
         users.clear()
         users.addAll(newUsers)
