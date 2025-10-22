@@ -33,7 +33,7 @@ class EditUserActivity : AppCompatActivity() {
                     user = response.body()
                     populateForm()
                 } else {
-                    Toast.makeText(this@EditUserActivity, "Failed to load user data", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditUserActivity, "Failed to load user data: ${response.message()}", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@EditUserActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
