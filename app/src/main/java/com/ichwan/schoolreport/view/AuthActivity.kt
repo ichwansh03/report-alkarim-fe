@@ -40,7 +40,7 @@ class AuthActivity : AppCompatActivity() {
                         Toast.makeText(this@AuthActivity, "Registration successful", Toast.LENGTH_SHORT).show()
                         showLoginScreen()
                     } else {
-                        Toast.makeText(this@AuthActivity, "Registration failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@AuthActivity, "Registration failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
@@ -79,7 +79,7 @@ class AuthActivity : AppCompatActivity() {
                             finish()
                         }
                     } else {
-                        Toast.makeText(this@AuthActivity, "Login failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@AuthActivity, "Login failed: ${response.message()}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()

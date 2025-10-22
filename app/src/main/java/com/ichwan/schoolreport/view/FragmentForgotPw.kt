@@ -52,7 +52,7 @@ class FragmentForgotPw : Fragment() {
                         Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show()
                         parentFragmentManager.popBackStack()
                     } else {
-                        Toast.makeText(requireContext(), "Failed to update password", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), "Failed to update password: ${response.message()}", Toast.LENGTH_SHORT).show()
                     }
                 } catch (e: Exception) {
                     Toast.makeText(requireContext(), "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()

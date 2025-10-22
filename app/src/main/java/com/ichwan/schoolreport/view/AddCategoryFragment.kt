@@ -39,7 +39,7 @@ class AddCategoryFragment : DialogFragment() {
                             Toast.makeText(requireContext(), "Category saved successfully", Toast.LENGTH_SHORT).show()
                             dismiss()
                         } else {
-                            Toast.makeText(requireContext(), "Failed to save category", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), "Failed to add category: ${response.message()}", Toast.LENGTH_SHORT).show()
                         }
                     } catch (e: Exception) {
                         Toast.makeText(requireContext(), "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
