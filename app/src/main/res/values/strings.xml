@@ -48,6 +48,8 @@ Ichwan Sholihin</string>
     <string name="laki_laki">Laki-laki</string>
     <string name="perempuan">Perempuan</string>
     <string name="jawaban">Jawaban</string>
+    <string name="siswa">Siswa</string>
+    <string name="guru">Guru</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
@@ -64,9 +66,9 @@ Ichwan Sholihin</string>
         <item>IX Utsman</item>
     </string-array>
     <string-array name="roles_array">
-        <item>Student</item>
-        <item>Teacher</item>
-        <item>Administrator</item>
+        <item>STUDENT</item>
+        <item>TEACHER</item>
+        <item>ADMINISTRATOR</item>
     </string-array>
     <string-array name="gender_array">
         <item>Male</item>
