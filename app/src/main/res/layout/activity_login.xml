@@ -54,21 +54,25 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/login_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:textAlignment="center"
             android:text="@string/login"
+            android:clickable="true"
             android:fontFamily="@font/montserrat_semibold"
             app:layout_constraintTop_toBottomOf="@id/password_et"/>
 
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/register_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:textAlignment="center"
             android:text="@string/register"
+            android:clickable="true"
             android:fontFamily="@font/montserrat_semibold"
             app:layout_constraintTop_toBottomOf="@id/login_btn"/>
 

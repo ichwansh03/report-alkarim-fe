@@ -57,10 +57,12 @@
             android:text="@string/perempuan" />
     </RadioGroup>
 
-    <Button
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:clickable="true"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/montserrat_semibold"
