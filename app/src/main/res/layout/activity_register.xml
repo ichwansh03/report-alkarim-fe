@@ -81,11 +81,13 @@
             android:hint="@string/password"
             android:inputType="textPassword" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/save_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:textAlignment="center"
+            android:clickable="true"
             android:fontFamily="@font/montserrat_semibold"
             android:text="@string/simpan" />
 
