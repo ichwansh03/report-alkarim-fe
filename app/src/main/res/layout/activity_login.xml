@@ -30,7 +30,7 @@
             android:focusableInTouchMode="true"
             android:padding="12dp"
             android:layout_marginTop="20dp"
-            android:autofillHints="name"
+            android:autofillHints="creditCardNumber"
             android:inputType="number"
             android:fontFamily="@font/montserrat_regular"
             android:hint="@string/nisn_nip"
