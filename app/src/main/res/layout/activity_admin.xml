@@ -17,14 +17,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/siswa"
-            app:tabText="@string/siswa"
             android:icon="@drawable/icon_boy"/>
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/guru"
-            app:tabText="@string/guru"
             android:focusableInTouchMode="true"
             android:focusable="true"
             android:icon="@drawable/icon_girl"/>
@@ -33,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/kelas"
-            app:tabText="@string/kelas"
             android:icon="@drawable/ic_chevron_left_black_24dp"/>
     </com.google.android.material.tabs.TabLayout>
 
