@@ -1,6 +1,7 @@
 package com.ichwan.schoolreport.api
 
 import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -9,8 +10,13 @@ object ApiClient {
 
     val authInterceptor = AuthInterceptor()
 
+    private val logging = HttpLoggingInterceptor().apply {
+        level = HttpLoggingInterceptor.Level.BODY
+    }
+
     private val okHttpClient = OkHttpClient.Builder()
         .addInterceptor(authInterceptor)
+        .addInterceptor(logging)
         .build()
 
     val instance: ApiService by lazy {

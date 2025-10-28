@@ -69,22 +69,41 @@ class AuthActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     val response = ApiClient.instance.login(loginRequest)
-                    if (response.isSuccessful) {
-                        val loginResponse = response.body()
-                        if (loginResponse != null) {
-                            ApiClient.authInterceptor.setToken(loginResponse.token)
-                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                            intent.putExtra("regnumber", loginResponse.regnumber)
-                            startActivity(intent)
-                            finish()
-                        }
-                    } else {
-                        Toast.makeText(this@AuthActivity, "Login failed: ${response.message()}", Toast.LENGTH_SHORT).show()
+                    if (!response.isSuccessful) {
+                        Toast.makeText(
+                            this@AuthActivity,
+                            "Login failed: ${response.errorBody()?.string()}",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@launch
                     }
+
+                    val loginResponse = response.body()
+                    if (loginResponse == null) {
+                        Toast.makeText(
+                            this@AuthActivity,
+                            "Response body is null",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        return@launch
+                    }
+
+                    ApiClient.authInterceptor.setToken(loginResponse.token)
+                    val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                    intent.putExtra("regnumber", loginResponse.regnumber)
+                    startActivity(intent)
+                    finish()
+
                 } catch (e: Exception) {
-                    Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        this@AuthActivity,
+                        "Error: ${e.localizedMessage}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    e.printStackTrace()
                 }
             }
+
         }
 
         loginBinding.registerBtn.setOnClickListener {
