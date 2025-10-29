@@ -29,12 +29,12 @@ class MainActivity : AppCompatActivity() {
                     val user = response.body()
                     if (user != null) {
                         when (user.roles) {
-                            "student" -> {
+                            "STUDENT" -> {
                                 val binding = ActivityStudentBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
                                 StudentActivity(this@MainActivity, binding, user)
                             }
-                            "teacher" -> {
+                            "TEACHER" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
                                 TeacherActivity(this@MainActivity, binding, user.room)
