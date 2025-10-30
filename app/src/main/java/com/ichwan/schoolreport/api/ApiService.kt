@@ -66,6 +66,6 @@ interface ApiService {
     @GET("class/{teacherName}")
     suspend fun getClassByTeacher(@Path("teacherName") teacherName: String): Response<List<ClassRoom>>
 
-    @GET("class/create")
+    @POST("class/create")
     suspend fun createClass(@Body classRoom: ClassRoom): Response<Void>
 }
