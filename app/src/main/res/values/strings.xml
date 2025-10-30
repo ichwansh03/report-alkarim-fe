@@ -53,6 +53,10 @@ Ichwan Sholihin</string>
     <string name="tambah_kelas">Tambah kelas</string>
     <string name="tambah_data">tambah data</string>
     <string name="delete_user">Delete User</string>
+    <string name="nama_lengkap">Nama Lengkap</string>
+    <string name="role">Role</string>
+    <string name="jenis_kelamin">Jenis Kelamin</string>
+    <string name="password_baru">Password Baru</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
