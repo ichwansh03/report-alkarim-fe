@@ -50,6 +50,9 @@ Ichwan Sholihin</string>
     <string name="jawaban">Jawaban</string>
     <string name="siswa">Siswa</string>
     <string name="guru">Guru</string>
+    <string name="tambah_kelas">Tambah kelas</string>
+    <string name="tambah_data">tambah data</string>
+    <string name="delete_user">Delete User</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
