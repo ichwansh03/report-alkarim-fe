@@ -4,6 +4,7 @@ import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.LoginResponse
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.CategoryActivity
+import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.User
 import retrofit2.Response
@@ -58,4 +59,13 @@ interface ApiService {
         @Path("category") category: String,
         @Path("target") target: String
     ): Response<List<Question>>
+
+    @GET("class")
+    suspend fun getClass(): Response<List<ClassRoom>>
+
+    @GET("class/{teacherName}")
+    suspend fun getClassByTeacher(@Path("teacherName") teacherName: String): Response<List<ClassRoom>>
+
+    @POST("class/create")
+    suspend fun createClass(@Body classRoom: ClassRoom): Response<Void>
 }
