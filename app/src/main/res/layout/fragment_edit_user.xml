@@ -83,25 +83,6 @@
             android:layout_height="48dp"
             android:entries="@array/gender_array" />
 
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:helperText="Kosongkan jika tidak ingin mengubah password"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edit_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat_regular"
-                android:hint="@string/password_baru"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/update_btn"
             android:layout_width="match_parent"

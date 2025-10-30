@@ -57,6 +57,8 @@ Ichwan Sholihin</string>
     <string name="role">Role</string>
     <string name="jenis_kelamin">Jenis Kelamin</string>
     <string name="password_baru">Password Baru</string>
+    <string name="nama_kelas">Nama Kelas</string>
+    <string name="wali_kelas">Wali Kelas</string>
     <string-array name="value_items">
         <item>A</item>
         <item>B</item>
