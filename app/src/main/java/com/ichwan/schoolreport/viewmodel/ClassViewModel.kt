@@ -14,8 +14,14 @@ class ClassViewModel : ViewModel() {
 
     private val apiService by lazy { ApiClient.instance }
 
+    // LiveData for teacher list (used in AddClassFragment)
     private val _teacherList = MutableLiveData<List<User>?>()
     val teacherList: LiveData<List<User>?> = _teacherList
+
+    // LiveData for class list
+    private val _classList = MutableLiveData<List<ClassRoom>?>()
+    val classList: LiveData<List<ClassRoom>?> = _classList
+
     private val _creationSuccess = MutableLiveData<Boolean>()
     val creationSuccess: LiveData<Boolean> = _creationSuccess
 
@@ -23,7 +29,26 @@ class ClassViewModel : ViewModel() {
     val message: LiveData<String> = _message
 
     init {
+        // Load teachers initially for the add class screen
         loadTeachers()
+    }
+
+    // Function to load the list of all classes
+    fun loadClasses() {
+        viewModelScope.launch {
+            try {
+                val response = apiService.getClass()
+                if (response.isSuccessful) {
+                    _classList.postValue(response.body())
+                } else {
+                    _message.postValue("Error fetching classes: ${response.message()}")
+                    _classList.postValue(null)
+                }
+            } catch (e: Exception) {
+                _message.postValue("Network Error: ${e.message}")
+                _classList.postValue(null)
+            }
+        }
     }
 
     private fun loadTeachers() {
