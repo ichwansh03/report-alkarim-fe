@@ -6,18 +6,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.ichwan.schoolreport.databinding.FragmentAddClassBinding
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.viewmodel.ClassViewModel
 
-class AddClassFragment : Fragment() {
+class AddClassFragment : DialogFragment() {
 
     private var _binding: FragmentAddClassBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: ClassViewModel by viewModels()
+
+    companion object {
+        const val TAG = "AddClassFragment"
+        fun newInstance() : AddClassFragment {
+            return AddClassFragment()
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

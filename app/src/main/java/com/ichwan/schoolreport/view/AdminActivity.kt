@@ -19,23 +19,27 @@ class AdminActivity : AppCompatActivity() {
         val viewPager = binding.viewPager
         val tabLayout = binding.tabLayout
 
+        // The adapter now handles three fragments
         val adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 2
+            override fun getItemCount(): Int = 3 // Increased to 3 tabs
 
             override fun createFragment(position: Int): Fragment {
                 return when (position) {
-                    0 -> UserListFragment.newInstance("student")
-                    else -> UserListFragment.newInstance("teacher")
+                    0 -> UserListFragment.newInstance("STUDENT")
+                    1 -> UserListFragment.newInstance("TEACHER")
+                    else -> ClassListFragment.newInstance() // Our new fragment for classes
                 }
             }
         }
 
         viewPager.adapter = adapter
 
+        // The mediator now sets the title for the third tab
         TabLayoutMediator(tabLayout, viewPager) { tab, position ->
             tab.text = when (position) {
                 0 -> "Siswa"
-                else -> "Guru"
+                1 -> "Guru"
+                else -> "Kelas" // Title for the new tab
             }
         }.attach()
     }
