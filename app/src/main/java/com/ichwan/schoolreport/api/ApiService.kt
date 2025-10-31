@@ -42,7 +42,10 @@ interface ApiService {
     @POST("/reports/create")
     suspend fun createReport(@Body activityReport: ActivityReport): Response<Void>
 
-    @POST("/categories/create")
+    @GET("category")
+    suspend fun getCategory(): Response<List<CategoryActivity>>
+
+    @POST("/category/create")
     suspend fun createCategory(@Body category: CategoryActivity): Response<Void>
 
     @POST("/questions/create")
