@@ -52,7 +52,6 @@ class ClassListFragment : Fragment() {
             if (classList != null) {
                 binding.rvClasses.adapter = ClassListAdapter(classList)
             } else {
-                // Optionally, show a message or an empty state view
                 Toast.makeText(requireContext(), "No classes found", Toast.LENGTH_SHORT).show()
             }
         }

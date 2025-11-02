@@ -1,9 +1,9 @@
 package com.ichwan.schoolreport.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.CompoundButton
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ItemCheckboxBinding
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class QuestionActivityAdapter(
     private var questions: List<Question>,
     private val student: User,
-    private val lifecycleScope: androidx.lifecycle.LifecycleCoroutineScope
+    private val lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
@@ -58,6 +58,11 @@ class QuestionActivityAdapter(
 
     override fun getItemCount(): Int = questions.size
 
+    fun updateData(newQuestions: List<Question>) {
+        this.questions = newQuestions
+        notifyDataSetChanged()
+    }
+
     inner class CheckboxViewHolder(private val binding: ItemCheckboxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(question: Question) {
@@ -92,7 +97,7 @@ class QuestionActivityAdapter(
                 )
                 ApiClient.instance.createReport(report)
             } catch (e: Exception) {
-                // Handle error
+                Log.e("SaveAnswer", "Failed to fetch questions: ", e)
             }
         }
     }

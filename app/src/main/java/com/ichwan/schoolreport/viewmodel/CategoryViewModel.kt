@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 
 class CategoryViewModel : ViewModel() {
 
+    private val apiService by lazy { ApiClient.instance }
     private val _categories = MutableLiveData<List<CategoryActivity>>()
     val categories: LiveData<List<CategoryActivity>> = _categories
 
@@ -23,7 +24,7 @@ class CategoryViewModel : ViewModel() {
     fun loadCategories() {
         viewModelScope.launch {
             try {
-                val response = ApiClient.apiService.getCategory()
+                val response = apiService.getCategory()
                 if (response.isSuccessful && response.body() != null) {
                     _categories.value = response.body()
                 } else {
