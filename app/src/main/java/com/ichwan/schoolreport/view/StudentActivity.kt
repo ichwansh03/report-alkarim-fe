@@ -24,7 +24,6 @@ class StudentActivity(
     init {
         setupView()
         setupObservers()
-        // Memuat data pertanyaan berdasarkan 'room' (kelas) dari user melalui ViewModel
         viewModel.loadQuestionsByTarget(user.room)
     }
 
@@ -36,8 +35,6 @@ class StudentActivity(
             ).show()
         }
 
-        // Setup RecyclerView dengan adapter yang kosong pada awalnya
-        // Anda mungkin perlu menambahkan method `updateData` pada QuestionActivityAdapter Anda
         questionAdapter = QuestionActivityAdapter(emptyList(), user, lifecycleOwner.lifecycleScope)
         binding.listReport.adapter = questionAdapter
         binding.listReport.layoutManager = LinearLayoutManager(activity)
@@ -47,13 +44,11 @@ class StudentActivity(
         // Mengamati perubahan pada daftar pertanyaan dari ViewModel
         viewModel.questions.observe(lifecycleOwner) { questions ->
             questions?.let {
-                // Panggil method updateData pada adapter yang sudah ada
-                // untuk memperbarui datanya.
+
                 questionAdapter.updateData(it)
             }
         }
 
-        // Mengamati pesan error atau informasi dari ViewModel
         viewModel.message.observe(lifecycleOwner) { message ->
             if (message.isNotEmpty()) {
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
