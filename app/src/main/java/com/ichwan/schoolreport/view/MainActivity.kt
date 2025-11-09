@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        ApiClient.init(this)
         val regNumber = intent.getStringExtra("regnumber")
 
         if (regNumber.isNullOrEmpty()) {

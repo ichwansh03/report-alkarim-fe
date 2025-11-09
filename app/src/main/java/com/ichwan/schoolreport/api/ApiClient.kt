@@ -1,5 +1,6 @@
 package com.ichwan.schoolreport.api
 
+import android.content.Context
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -9,6 +10,11 @@ object ApiClient {
     private const val BASE_URL = "http://10.0.2.2:8080/"
 
     val authInterceptor = AuthInterceptor()
+    private lateinit var tokenDataStore: TokenDataStore
+
+    fun init(context: Context) {
+        tokenDataStore = TokenDataStore(context.applicationContext)
+    }
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

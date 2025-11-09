@@ -12,6 +12,9 @@ val Context.dataStore by preferencesDataStore("auth_prefs")
 
 class TokenDataStore(private val context: Context) {
 
+    //avoid memory leak
+    private val appContext = context.applicationContext
+
     //initialize key data store
     companion object {
         private val ACCESS_TOKEN = stringPreferencesKey("access_token")
@@ -19,8 +22,8 @@ class TokenDataStore(private val context: Context) {
     }
 
     // each changes from token, all collected accessToken or refreshToken's would be update automatically
-    val accessToken: Flow<String?> = context.dataStore.data.map { prefs -> prefs[ACCESS_TOKEN] }
-    val refreshToken: Flow<String?> = context.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN] }
+    val accessToken: Flow<String?> = appContext.dataStore.data.map { prefs -> prefs[ACCESS_TOKEN] }
+    val refreshToken: Flow<String?> = appContext.dataStore.data.map { prefs -> prefs[REFRESH_TOKEN] }
 
     suspend fun saveTokens(access: String?, refresh: String?) {
         context.dataStore.edit { prefs ->
