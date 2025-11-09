@@ -66,6 +66,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
     implementation(libs.okhttp3.logging)
     implementation(libs.kotlin.serialization)
+    implementation(libs.jetpack.datastore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
