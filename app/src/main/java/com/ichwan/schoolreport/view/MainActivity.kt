@@ -32,12 +32,12 @@ class MainActivity : AppCompatActivity() {
                             "STUDENT" -> {
                                 val binding = ActivityStudentBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                StudentActivity(this@MainActivity, binding, user)
+                                StudentHelper(this@MainActivity, binding, user)
                             }
                             "TEACHER" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                TeacherActivity(this@MainActivity, binding, user.room)
+                                TeacherHelper(this@MainActivity, binding, user.room)
                             }
                             else -> {
                                 Toast.makeText(applicationContext, "Unknown role: ${user.roles}", Toast.LENGTH_SHORT).show()
