@@ -6,6 +6,8 @@ import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.CategoryActivity
 import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.Question
+import com.ichwan.schoolreport.model.RefreshTokenRequest
+import com.ichwan.schoolreport.model.RefreshTokenResponse
 import com.ichwan.schoolreport.model.User
 import retrofit2.Response
 import retrofit2.http.Body
@@ -71,4 +73,7 @@ interface ApiService {
 
     @POST("class/create")
     suspend fun createClass(@Body classRoom: ClassRoom): Response<Void>
+
+    @POST("auth/refresh")
+    suspend fun refreshToken(@Body request: RefreshTokenRequest): RefreshTokenResponse
 }
