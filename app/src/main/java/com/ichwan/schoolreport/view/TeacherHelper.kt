@@ -9,7 +9,6 @@ import kotlin.getValue
 
 class TeacherHelper(
     private val activity: MainActivity,
-    private val binding: ActivityTeacherBinding,
     private val room: String
 ) {
 
@@ -24,7 +23,7 @@ class TeacherHelper(
     fun setUp(){
         activity.lifecycleScope.launch {
             try {
-                viewModel.loadUsersByClassAndRoles(room, "STUDENT", activity, binding)
+                viewModel.loadUsersByClassAndRoles(room, "STUDENT")
             } catch (e: Exception) {
                 e.printStackTrace()
             }

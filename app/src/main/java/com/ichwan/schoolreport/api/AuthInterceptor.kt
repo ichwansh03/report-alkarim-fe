@@ -7,17 +7,12 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class AuthInterceptor (private val app: AlkarimApp) : Interceptor {
-
-    private var token: String? = null
-
-    fun setToken(token: String?) {
-        this.token = token
-    }
+class AuthInterceptor(private val tokenDataStore: TokenDataStore) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
+        val accessToken = runBlocking { tokenDataStore.accessToken.first() }
         val requestBuilder = chain.request().newBuilder()
-        token?.let {
+        accessToken?.let {
             requestBuilder.addHeader("Authorization", "Bearer $it")
         }
         return chain.proceed(requestBuilder.build())
