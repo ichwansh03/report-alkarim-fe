@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityAddQuestionBinding
 import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.viewmodel.CategoryViewModel
@@ -83,7 +84,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = ApiClient.instance.createQuestion(question)
+                val response = (application as AlkarimApp).apiClient.instance.createQuestion(question)
                 if (response.isSuccessful) {
                     Toast.makeText(this@AddQuestionActivity, "Question created successfully", Toast.LENGTH_SHORT).show()
                     finish()
