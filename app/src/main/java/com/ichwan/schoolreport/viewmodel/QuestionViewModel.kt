@@ -1,16 +1,17 @@
 package com.ichwan.schoolreport.viewmodel
 
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.Question
 import kotlinx.coroutines.launch
 
-class QuestionViewModel : ViewModel() {
+class QuestionViewModel(app: AlkarimApp) : AndroidViewModel(app) {
 
-    private val apiService by lazy { ApiClient.instance }
+    private val apiService by lazy { ApiClient(app.applicationContext).instance }
     private val _questions = MutableLiveData<List<Question>>()
     val questions: LiveData<List<Question>> = _questions
 
