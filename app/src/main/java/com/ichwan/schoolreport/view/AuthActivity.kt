@@ -36,7 +36,7 @@ class AuthActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = (application as AlkarimApp).apiClient.instance.register(user)
+                    val response = ApiClient(application).instance.register(user)
                     if (response.isSuccessful) {
                         Toast.makeText(this@AuthActivity, "Registration successful", Toast.LENGTH_SHORT).show()
                         showLoginScreen()

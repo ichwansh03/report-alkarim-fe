@@ -42,7 +42,6 @@ class StudentHelper(
     }
 
     private fun setupObservers() {
-        // Mengamati perubahan pada daftar pertanyaan dari ViewModel
         viewModel.questions.observe(activity) { questions ->
             questions?.let {
 

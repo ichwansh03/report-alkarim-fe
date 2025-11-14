@@ -70,7 +70,7 @@ class EditUserActivity : AppCompatActivity() {
         if (updatedUser != null) {
             lifecycleScope.launch {
                 try {
-                    val response = (application as AlkarimApp).apiClient.instance.updateUser(updatedUser.regnumber, updatedUser)
+                    val response = ApiClient(application).instance.updateUser(updatedUser.regnumber, updatedUser)
                     if (response.isSuccessful) {
                         Toast.makeText(this@EditUserActivity, "User updated successfully", Toast.LENGTH_SHORT).show()
                         finish()
