@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityEditUserBinding
 import com.ichwan.schoolreport.model.User
 import kotlinx.coroutines.launch
@@ -28,7 +29,7 @@ class EditUserActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = ApiClient.instance.getUserByRegNumber(regnumber)
+                val response = (application as AlkarimApp).apiClient.instance.getUserByRegNumber(regnumber)
                 if (response.isSuccessful) {
                     user = response.body()
                     populateForm()
@@ -69,7 +70,7 @@ class EditUserActivity : AppCompatActivity() {
         if (updatedUser != null) {
             lifecycleScope.launch {
                 try {
-                    val response = ApiClient.instance.updateUser(updatedUser.regnumber, updatedUser)
+                    val response = (application as AlkarimApp).apiClient.instance.updateUser(updatedUser.regnumber, updatedUser)
                     if (response.isSuccessful) {
                         Toast.makeText(this@EditUserActivity, "User updated successfully", Toast.LENGTH_SHORT).show()
                         finish()

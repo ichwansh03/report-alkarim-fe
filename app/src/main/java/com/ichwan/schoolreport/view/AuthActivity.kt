@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
 import com.ichwan.schoolreport.model.LoginRequest
@@ -35,7 +36,7 @@ class AuthActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = ApiClient.instance.register(user)
+                    val response = (application as AlkarimApp).apiClient.instance.register(user)
                     if (response.isSuccessful) {
                         Toast.makeText(this@AuthActivity, "Registration successful", Toast.LENGTH_SHORT).show()
                         showLoginScreen()
@@ -68,7 +69,7 @@ class AuthActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = ApiClient.instance.login(loginRequest)
+                    val response = (application as AlkarimApp).apiClient.instance.login(loginRequest)
                     if (!response.isSuccessful) {
                         Toast.makeText(
                             this@AuthActivity,
@@ -88,7 +89,6 @@ class AuthActivity : AppCompatActivity() {
                         return@launch
                     }
 
-                    ApiClient.authInterceptor.setToken(loginResponse.token)
                     val intent = Intent(this@AuthActivity, MainActivity::class.java)
                     intent.putExtra("regnumber", loginResponse.regnumber)
                     startActivity(intent)

@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
 import kotlinx.coroutines.launch
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = ApiClient.instance.getUserByRegNumber(regNumber)
+                val response = (application as AlkarimApp).apiClient.instance.getUserByRegNumber(regNumber)
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user != null) {
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
                             "TEACHER" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                TeacherHelper(this@MainActivity, binding, user.room)
+                                TeacherHelper(this@MainActivity, user.room)
                             }
                             else -> {
                                 Toast.makeText(applicationContext, "Unknown role: ${user.roles}", Toast.LENGTH_SHORT).show()

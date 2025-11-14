@@ -2,7 +2,6 @@ package com.ichwan.schoolreport.view
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
 import com.ichwan.schoolreport.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 import kotlin.getValue

@@ -1,7 +1,5 @@
 package com.ichwan.schoolreport.api
 
-import com.ichwan.schoolreport.core.AlkarimApp
-import com.ichwan.schoolreport.model.RefreshTokenRequest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
