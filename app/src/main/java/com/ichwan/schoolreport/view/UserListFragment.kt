@@ -11,7 +11,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ichwan.schoolreport.adapter.ListStudentAdapter
 import com.ichwan.schoolreport.api.ApiClient
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.FragmentUserListBinding
 import kotlinx.coroutines.launch
 
@@ -44,7 +43,7 @@ class UserListFragment : Fragment() {
 
         lifecycleScope.launch {
             try {
-                val response = (requireContext().applicationContext as AlkarimApp).apiClient.instance.getUsersByRole(role)
+                val response = ApiClient(requireContext().applicationContext).instance.getUsersByRole(role)
                 if (response.isSuccessful) {
                     adapter.updateData(response.body() ?: emptyList())
                 }

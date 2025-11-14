@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.FragmentForgotPwBinding
 import com.ichwan.schoolreport.model.LoginRequest
 import kotlinx.coroutines.launch
@@ -48,7 +47,7 @@ class FragmentForgotPw : Fragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    val response = (requireContext().applicationContext as AlkarimApp).apiClient.instance.updatePassword(loginRequest)
+                    val response = ApiClient(requireContext().applicationContext).instance.updatePassword(loginRequest)
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show()
                         parentFragmentManager.popBackStack()

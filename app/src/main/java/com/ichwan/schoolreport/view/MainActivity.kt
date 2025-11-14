@@ -5,7 +5,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
 import kotlinx.coroutines.launch
@@ -25,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = (application as AlkarimApp).apiClient.instance.getUserByRegNumber(regNumber)
+                val response = ApiClient(application).instance.getUserByRegNumber(regNumber)
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user != null) {
