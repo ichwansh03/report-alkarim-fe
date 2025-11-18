@@ -7,18 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ichwan.schoolreport.adapter.ListStudentAdapter
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.FragmentUserListBinding
-import kotlinx.coroutines.launch
-
+import com.ichwan.schoolreport.viewmodel.UserViewModel
+import androidx.fragment.app.viewModels
 class UserListFragment : Fragment() {
 
     private var _binding: FragmentUserListBinding? = null
     private val binding get() = _binding!!
     private val role by lazy { arguments?.getString(ARG_ROLE) ?: "" }
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,18 +40,20 @@ class UserListFragment : Fragment() {
         binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
         binding.rvUsers.adapter = adapter
 
-        lifecycleScope.launch {
-            try {
-                val response = ApiClient(requireContext().applicationContext).instance.getUsersByRole(role)
-                if (response.isSuccessful) {
-                    adapter.updateData(response.body() ?: emptyList())
-                }
-                else {
-                    Toast.makeText(requireContext(), "Error: ${response.message()}", Toast.LENGTH_SHORT).show()
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
+        viewModel.users.observe(viewLifecycleOwner) { users ->
+            adapter.updateData(users ?: emptyList())
+        }
+
+        viewModel.message.observe(viewLifecycleOwner) { msg ->
+            if (!msg.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), msg, Toast.LENGTH_SHORT).show()
             }
+        }
+
+        if (role.isNotBlank()) {
+            viewModel.loadUserByRoles(role)
+        } else {
+            Toast.makeText(requireContext(), "Role not provided", Toast.LENGTH_SHORT).show()
         }
     }
 
