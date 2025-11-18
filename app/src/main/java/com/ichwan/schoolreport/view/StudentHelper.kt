@@ -44,7 +44,6 @@ class StudentHelper(
     private fun setupObservers() {
         viewModel.questions.observe(activity) { questions ->
             questions?.let {
-
                 questionAdapter.updateData(it)
             }
         }

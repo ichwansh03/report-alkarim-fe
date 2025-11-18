@@ -7,11 +7,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.User
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class UserViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val apiService = (application as AlkarimApp).apiClient.instance
+    private val apiService by lazy { (application as AlkarimApp).apiClient.instance }
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
@@ -19,18 +22,28 @@ class UserViewModel(application: Application) : AndroidViewModel(application) {
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
+    private suspend fun fetchUsers(request: suspend () -> Response<List<User>>) {
+        try {
+            val response = withContext(Dispatchers.IO) { request() }
+            if (response.isSuccessful) {
+                _users.postValue(response.body())
+            } else {
+                _message.postValue("Failed to load users: ${response.message()}")
+            }
+        } catch (t: Throwable) {
+            _message.postValue("An error occurred: ${t.message ?: "Unknown error"}")
+        }
+    }
+
     fun loadUsersByClassAndRoles(classValue: String, roles: String) {
         viewModelScope.launch {
-            try {
-                val response = apiService.getUsersByClassAndRoles(classValue, roles)
-                if (response.isSuccessful) {
-                    _users.postValue(response.body())
-                } else {
-                    _message.postValue("Failed to load users: ${response.message()}")
-                }
-            } catch (e: Exception) {
-                _message.postValue("An error occurred: ${e.message}")
-            }
+            fetchUsers { apiService.getUsersByClassAndRoles(classValue, roles) }
+        }
+    }
+
+    fun loadUserByRoles(roles: String) {
+        viewModelScope.launch {
+            fetchUsers { apiService.getUsersByRole(roles) }
         }
     }
 }
