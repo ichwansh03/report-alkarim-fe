@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ItemCheckboxBinding
@@ -11,11 +12,15 @@ import com.ichwan.schoolreport.databinding.ItemTextBinding
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.viewmodel.QuestionViewModel
+import com.ichwan.schoolreport.viewmodel.ReportViewModel
 import kotlinx.coroutines.launch
+import kotlin.math.acos
 
 class QuestionActivityAdapter(
     private var questions: List<Question>,
     private val student: User,
+    private val viewModel: ReportViewModel,
     private val lifecycleScope: LifecycleCoroutineScope
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -95,7 +100,7 @@ class QuestionActivityAdapter(
                     answer = answer,
                     score = ""
                 )
-                ApiClient.instance.createReport(report)
+                viewModel.addReports(report)
             } catch (e: Exception) {
                 Log.e("SaveAnswer", "Failed to fetch questions: ", e)
             }

@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.User
 import kotlinx.coroutines.Dispatchers
@@ -12,9 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class UserViewModel(application: Application) : AndroidViewModel(application) {
+class UserViewModel(app: AlkarimApp) : AndroidViewModel(app) {
 
-    private val apiService by lazy { (application as AlkarimApp).apiClient.instance }
+    private val apiService by lazy { ApiClient(app.applicationContext).instance }
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
