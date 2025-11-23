@@ -1,7 +1,6 @@
 package com.ichwan.schoolreport.view
 
 import android.widget.Toast
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -9,6 +8,7 @@ import com.ichwan.schoolreport.adapter.QuestionActivityAdapter
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.viewmodel.QuestionViewModel
+import com.ichwan.schoolreport.viewmodel.ReportViewModel
 
 class StudentHelper(
     private val activity: MainActivity,
@@ -20,6 +20,10 @@ class StudentHelper(
 
     private val viewModel: QuestionViewModel by lazy {
         ViewModelProvider(activity)[QuestionViewModel::class.java]
+    }
+
+    private val reportViewModel: ReportViewModel by lazy {
+        ViewModelProvider(activity)[ReportViewModel::class.java]
     }
 
     init {
@@ -36,7 +40,7 @@ class StudentHelper(
             ).show()
         }
 
-        questionAdapter = QuestionActivityAdapter(emptyList(), user, activity.lifecycleScope)
+        questionAdapter = QuestionActivityAdapter(emptyList(), user, reportViewModel, activity.lifecycleScope)
         binding.listReport.adapter = questionAdapter
         binding.listReport.layoutManager = LinearLayoutManager(activity)
     }
