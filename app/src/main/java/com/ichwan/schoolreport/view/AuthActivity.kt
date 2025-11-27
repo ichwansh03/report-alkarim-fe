@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
@@ -11,9 +12,14 @@ import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
 import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
+
+    private val viewModel: UserViewModel by lazy {
+        ViewModelProvider(this)[UserViewModel::class.java]
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,19 +40,7 @@ class AuthActivity : AppCompatActivity() {
 
             val user = User(name, regNumber, room, roles, gender, password)
 
-            lifecycleScope.launch {
-                try {
-                    val response = ApiClient(application).instance.register(user)
-                    if (response.isSuccessful) {
-                        Toast.makeText(this@AuthActivity, "Registration successful", Toast.LENGTH_SHORT).show()
-                        showLoginScreen()
-                    } else {
-                        Toast.makeText(this@AuthActivity, "Registration failed: ${response.message()}", Toast.LENGTH_SHORT).show()
-                    }
-                } catch (e: Exception) {
-                    Toast.makeText(this@AuthActivity, "An error occurred: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
+            viewModel.registerUser(user)
         }
     }
 
@@ -57,13 +51,6 @@ class AuthActivity : AppCompatActivity() {
         loginBinding.loginBtn.setOnClickListener {
             val regNumber = loginBinding.idNumberEt.text.toString()
             val password = loginBinding.passwordEt.text.toString()
-
-            if (regNumber == "1213141516" && password == "admin567") {
-                val intent = Intent(this@AuthActivity, AdminActivity::class.java)
-                startActivity(intent)
-                finish()
-                return@setOnClickListener
-            }
 
             val loginRequest = LoginRequest(regNumber, password)
 
