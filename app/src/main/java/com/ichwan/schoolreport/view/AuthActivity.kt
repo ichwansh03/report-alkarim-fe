@@ -3,10 +3,9 @@ package com.ichwan.schoolreport.view
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
@@ -17,9 +16,7 @@ import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
 
-    private val viewModel: UserViewModel by lazy {
-        ViewModelProvider(this)[UserViewModel::class.java]
-    }
+    private val viewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +38,7 @@ class AuthActivity : AppCompatActivity() {
             val user = User(name, regNumber, room, roles, gender, password)
 
             viewModel.registerUser(user)
+            showLoginScreen()
         }
     }
 

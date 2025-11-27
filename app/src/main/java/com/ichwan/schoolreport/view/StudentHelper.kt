@@ -1,7 +1,6 @@
 package com.ichwan.schoolreport.view
 
 import android.widget.Toast
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ichwan.schoolreport.adapter.QuestionActivityAdapter
@@ -13,23 +12,17 @@ import com.ichwan.schoolreport.viewmodel.ReportViewModel
 class StudentHelper(
     private val activity: MainActivity,
     private val binding: ActivityStudentBinding,
-    private val user: User
+    private val user: User,
+    private val questionViewModel: QuestionViewModel,
+    private val reportViewModel: ReportViewModel
 ) {
 
     private lateinit var questionAdapter: QuestionActivityAdapter
 
-    private val viewModel: QuestionViewModel by lazy {
-        ViewModelProvider(activity)[QuestionViewModel::class.java]
-    }
-
-    private val reportViewModel: ReportViewModel by lazy {
-        ViewModelProvider(activity)[ReportViewModel::class.java]
-    }
-
     init {
         setupView()
         setupObservers()
-        viewModel.loadQuestionsByTarget(user.room)
+        questionViewModel.loadQuestionsByTarget(user.room)
     }
 
     private fun setupView() {
@@ -46,13 +39,13 @@ class StudentHelper(
     }
 
     private fun setupObservers() {
-        viewModel.questions.observe(activity) { questions ->
+        questionViewModel.questions.observe(activity) { questions ->
             questions?.let {
                 questionAdapter.updateData(it)
             }
         }
 
-        viewModel.message.observe(activity) { message ->
+        questionViewModel.message.observe(activity) { message ->
             if (message.isNotEmpty()) {
                 Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
             }

@@ -2,20 +2,23 @@ package com.ichwan.schoolreport.view
 
 import android.os.Bundle
 import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
+import com.ichwan.schoolreport.viewmodel.QuestionViewModel
+import com.ichwan.schoolreport.viewmodel.ReportViewModel
 import com.ichwan.schoolreport.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: UserViewModel by lazy {
-        ViewModelProvider(this)[UserViewModel::class.java]
-    }
+    private val userViewModel: UserViewModel by viewModels()
+    private val questionViewModel: QuestionViewModel by viewModels()
+    private val reportViewModel: ReportViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,12 +41,12 @@ class MainActivity : AppCompatActivity() {
                             "STUDENT" -> {
                                 val binding = ActivityStudentBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                StudentHelper(this@MainActivity, binding, user)
+                                StudentHelper(this@MainActivity, binding, user, questionViewModel, reportViewModel)
                             }
                             "TEACHER" -> {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
-                                TeacherHelper(this@MainActivity, viewModel, user)
+                                TeacherHelper(this@MainActivity, userViewModel, user)
                             }
                             else -> {
                                 Toast.makeText(applicationContext, "Unknown role: ${user.roles}", Toast.LENGTH_SHORT).show()

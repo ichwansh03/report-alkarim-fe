@@ -1,17 +1,19 @@
 package com.ichwan.schoolreport.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.ActivityReport
 import kotlinx.coroutines.launch
 
-class ReportViewModel(app: AlkarimApp) : AndroidViewModel(app) {
+class ReportViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val apiService by lazy { ApiClient(app.applicationContext).instance }
+    private val apiService by lazy {
+        getApplication<AlkarimApp>().apiClient.instance
+    }
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
