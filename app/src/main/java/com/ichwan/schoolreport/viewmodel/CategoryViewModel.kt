@@ -1,5 +1,6 @@
 package com.ichwan.schoolreport.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,9 +10,11 @@ import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.CategoryActivity
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(app: AlkarimApp) : AndroidViewModel(app) {
+class CategoryViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val apiService by lazy { ApiClient(app.applicationContext).instance }
+    private val apiService by lazy {
+        getApplication<AlkarimApp>().apiClient.instance
+    }
     private val _categories = MutableLiveData<List<CategoryActivity>>()
     val categories: LiveData<List<CategoryActivity>> = _categories
 

@@ -1,5 +1,6 @@
 package com.ichwan.schoolreport.viewmodel
 
+import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,9 +12,11 @@ import com.ichwan.schoolreport.model.User
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
-class ClassViewModel(app: AlkarimApp) : AndroidViewModel(app) {
+class ClassViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val apiService by lazy { ApiClient(app.applicationContext).instance }
+    private val apiService by lazy {
+        getApplication<AlkarimApp>().apiClient.instance
+    }
 
     // LiveData for teacher list (used in AddClassFragment)
     private val _teacherList = MutableLiveData<List<User>?>()
