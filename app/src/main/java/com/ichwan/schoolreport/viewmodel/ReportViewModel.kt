@@ -12,8 +12,6 @@ import kotlinx.coroutines.launch
 class ReportViewModel(app: AlkarimApp) : AndroidViewModel(app) {
 
     private val apiService by lazy { ApiClient(app.applicationContext).instance }
-    private val _reports = MutableLiveData<List<ActivityReport>>()
-    val reports: LiveData<List<ActivityReport>> = _reports
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 

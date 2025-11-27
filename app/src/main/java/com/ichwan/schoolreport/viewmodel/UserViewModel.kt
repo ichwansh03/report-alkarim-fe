@@ -1,6 +1,5 @@
 package com.ichwan.schoolreport.viewmodel
 
-import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -22,6 +21,21 @@ class UserViewModel(app: AlkarimApp) : AndroidViewModel(app) {
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
+
+    fun registerUser(user: User) {
+        viewModelScope.launch {
+            try {
+                val response = apiService.register(user)
+                if (response.isSuccessful) {
+                    _message.value = "User registered successfully"
+                } else {
+                    _message.value = "Failed to register user: ${response.message()}"
+                }
+            } catch (e: Exception) {
+                _message.value = "An error occurred: ${e.message}"
+            }
+        }
+    }
 
     private suspend fun fetchUsers(request: suspend () -> Response<List<User>>) {
         try {
