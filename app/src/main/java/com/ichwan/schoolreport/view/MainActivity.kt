@@ -5,7 +5,9 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.tabs.TabLayoutMediator
 import com.ichwan.schoolreport.api.ApiClient
+import com.ichwan.schoolreport.databinding.ActivityAdminBinding
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
 import com.ichwan.schoolreport.viewmodel.QuestionViewModel
@@ -47,6 +49,22 @@ class MainActivity : AppCompatActivity() {
                                 val binding = ActivityTeacherBinding.inflate(layoutInflater)
                                 setContentView(binding.root)
                                 TeacherHelper(this@MainActivity, userViewModel, user)
+                            }
+                            "ADMINISTRATOR" -> {
+                                val binding = ActivityAdminBinding.inflate(layoutInflater)
+                                setContentView(binding.root)
+                                AdminHelper(this@MainActivity)
+                                val viewPager = binding.viewPager
+                                val tabLayout = binding.tabLayout
+                                viewPager.adapter = AdminHelper(this@MainActivity).adapter
+                                // The mediator now sets the title for the third tab
+                                TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                                    tab.text = when (position) {
+                                        0 -> "Siswa"
+                                        1 -> "Guru"
+                                        else -> "Kelas" // Title for the new tab
+                                    }
+                                }.attach()
                             }
                             else -> {
                                 Toast.makeText(applicationContext, "Unknown role: ${user.roles}", Toast.LENGTH_SHORT).show()
