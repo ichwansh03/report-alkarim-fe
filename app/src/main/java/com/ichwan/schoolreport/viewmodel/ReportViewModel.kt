@@ -1,26 +1,22 @@
 package com.ichwan.schoolreport.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.ActivityReport
+import com.ichwan.schoolreport.repository.ReportRepository
 import kotlinx.coroutines.launch
 
-class ReportViewModel(application: Application) : AndroidViewModel(application) {
+class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
 
-    private val apiService by lazy {
-        getApplication<AlkarimApp>().apiClient.instance
-    }
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
     fun addReports(report: ActivityReport) {
         viewModelScope.launch {
             try {
-                val response = apiService.createReport(report)
+                val response = repository.createReport(report)
                 if (response.isSuccessful) {
                     _message.value = "Report added successfully"
                 } else {

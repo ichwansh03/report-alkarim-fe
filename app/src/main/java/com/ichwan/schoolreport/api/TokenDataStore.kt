@@ -16,7 +16,7 @@ val Context.dataStore : DataStore<Preferences> by preferencesDataStore("tokens")
 class TokenDataStore(private val context: Context) {
 
     //avoid memory leak
-    private val dataStore = context.dataStore
+    private val dataStore = context.applicationContext.dataStore
 
     //initialize key data store
     companion object {

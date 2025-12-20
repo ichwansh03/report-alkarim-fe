@@ -6,6 +6,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.databinding.ActivityAdminBinding
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
@@ -13,7 +14,6 @@ import com.ichwan.schoolreport.viewmodel.QuestionViewModel
 import com.ichwan.schoolreport.viewmodel.ReportViewModel
 import com.ichwan.schoolreport.viewmodel.UserViewModel
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = ApiClient(application).instance.getUserByRegNumber(regNumber)
+                val response = RetrofitClient.apiService.getUserByRegNumber(regNumber)
                 if (response.isSuccessful) {
                     val user = response.body()
                     if (user != null) {

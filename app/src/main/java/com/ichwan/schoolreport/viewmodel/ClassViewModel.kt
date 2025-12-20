@@ -1,21 +1,15 @@
 package com.ichwan.schoolreport.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.repository.ClassRepository
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
-class ClassViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val apiService by lazy {
-        getApplication<AlkarimApp>().apiClient.instance
-    }
+class ClassViewModel(private val repository: ClassRepository) : ViewModel() {
 
     // LiveData for teacher list (used in AddClassFragment)
     private val _teacherList = MutableLiveData<List<User>?>()
@@ -40,7 +34,7 @@ class ClassViewModel(application: Application) : AndroidViewModel(application) {
     fun loadClasses() {
         viewModelScope.launch {
             try {
-                val response = apiService.getClass()
+                val response = repository.getClass()
                 if (response.isSuccessful) {
                     _classList.postValue(response.body())
                 } else {
@@ -57,7 +51,7 @@ class ClassViewModel(application: Application) : AndroidViewModel(application) {
     private fun loadTeachers() {
         viewModelScope.launch {
             try {
-                val response = apiService.getUsersByRole("TEACHER")
+                val response = repository.getUserByRole("TEACHER")
                 if (response.isSuccessful) {
                     _teacherList.postValue(response.body())
                 } else {
@@ -85,7 +79,7 @@ class ClassViewModel(application: Application) : AndroidViewModel(application) {
             try {
                 // studentTotal is 0 because this is a new class
                 val newClass = ClassRoom(name = className, teacher = teacherName, studentTotal = 0)
-                val response = apiService.createClass(newClass)
+                val response = repository.createClass(newClass)
                 if (response.isSuccessful) {
                     _message.postValue("Class '$className' created successfully")
                     _creationSuccess.postValue(true)
