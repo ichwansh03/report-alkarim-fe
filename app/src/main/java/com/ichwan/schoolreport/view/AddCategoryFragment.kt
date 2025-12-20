@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.FragmentAddCategoryBinding
 import com.ichwan.schoolreport.model.CategoryActivity

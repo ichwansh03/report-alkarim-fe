@@ -7,40 +7,40 @@ import okhttp3.Authenticator
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
+import retrofit2.HttpException
 
 class TokenAuthenticator(
-    private val apiService: ApiService,
+    private val cleanApiService: ApiService,
     private val tokenDataStore: TokenDataStore
 ) : Authenticator {
-
     override fun authenticate(route: Route?, response: Response): Request? {
-        if (responseCount(response) >= 2) return null
+        synchronized(this) {
+            val refreshToken = runBlocking { tokenDataStore.getRefreshToken() } ?: return null
 
-        val refreshToken = runBlocking { tokenDataStore.refreshToken.first() } ?: return null
-
-        val newTokens = runBlocking {
             try {
-                apiService.refreshToken(RefreshTokenRequest(refreshToken))
+                val refreshCall = cleanApiService.refreshToken(mapOf("refreshToken" to refreshToken))
+                val refreshResponse = refreshCall.execute()
+
+                if (!refreshResponse.isSuccessful) {
+                    if (refreshResponse.code() == 401 || refreshResponse.code() == 403) {
+                        runBlocking { tokenDataStore.clearTokens() }  // Wrap di runBlocking
+                        // Optional: Trigger logout event di sini (misal via LiveData atau callback)
+                    }
+                    return null
+                }
+
+                val tokenResponse = refreshResponse.body() ?: return null
+
+                runBlocking {
+                    tokenDataStore.saveTokens(tokenResponse.accessToken, tokenResponse.refreshToken)
+                }
+
+                return response.request.newBuilder()
+                    .header("Authorization", "Bearer ${tokenResponse.accessToken}")
+                    .build()
             } catch (e: Exception) {
-                null
+                return null
             }
-        } ?: return null
-
-        runBlocking {
-            tokenDataStore.saveTokens(newTokens.accessToken, newTokens.refreshToken)
         }
-
-        return response.request.newBuilder().header("Authorization", "Bearer ${newTokens.accessToken}").build()
-    }
-
-    private fun responseCount(response: Response?): Int {
-        var count = 1
-        var r = response
-        while (r?.priorResponse != null) {
-            count++
-            r = r.priorResponse
-        }
-
-        return count
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.User

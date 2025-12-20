@@ -6,7 +6,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ActivityAdminBinding
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding

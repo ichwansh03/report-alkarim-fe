@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.databinding.ActivityEditUserBinding
 import com.ichwan.schoolreport.model.User
