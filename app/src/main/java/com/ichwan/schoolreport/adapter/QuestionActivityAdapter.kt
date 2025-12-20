@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
-import com.ichwan.schoolreport.api.ApiClient
 import com.ichwan.schoolreport.databinding.ItemCheckboxBinding
 import com.ichwan.schoolreport.databinding.ItemTextBinding
 import com.ichwan.schoolreport.model.ActivityReport

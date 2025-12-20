@@ -1,19 +1,15 @@
 package com.ichwan.schoolreport.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.Question
+import com.ichwan.schoolreport.repository.QuestionRepository
 import kotlinx.coroutines.launch
 
-class QuestionViewModel(application: Application) : AndroidViewModel(application) {
+class QuestionViewModel(private val repository: QuestionRepository) : ViewModel() {
 
-    private val apiService by lazy {
-        getApplication<AlkarimApp>().apiClient.instance
-    }
     private val _questions = MutableLiveData<List<Question>>()
     val questions: LiveData<List<Question>> = _questions
 
@@ -23,7 +19,7 @@ class QuestionViewModel(application: Application) : AndroidViewModel(application
     fun loadQuestionsByTarget(target: String) {
         viewModelScope.launch {
             try {
-                val response = apiService.getQuestionsByTarget(target)
+                val response = repository.getQuestionByTarget(target)
                 if (response.isSuccessful) {
                     _questions.postValue(response.body())
                 } else {

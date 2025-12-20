@@ -7,8 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.ApiClient
-import com.ichwan.schoolreport.core.AlkarimApp
+import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.databinding.FragmentAddCategoryBinding
 import com.ichwan.schoolreport.model.CategoryActivity
 import kotlinx.coroutines.launch
@@ -35,7 +34,7 @@ class AddCategoryFragment : DialogFragment() {
                 val category = CategoryActivity(categoryName)
                 lifecycleScope.launch {
                     try {
-                        val response = (requireContext().applicationContext as AlkarimApp).apiClient.instance.createCategory(category)
+                        val response = RetrofitClient.apiService.createCategory(category)
                         if (response.isSuccessful) {
                             Toast.makeText(requireContext(), "Category saved successfully", Toast.LENGTH_SHORT).show()
                             dismiss()

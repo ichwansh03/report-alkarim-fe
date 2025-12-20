@@ -9,6 +9,7 @@ import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.RefreshTokenRequest
 import com.ichwan.schoolreport.model.RefreshTokenResponse
 import com.ichwan.schoolreport.model.User
+import okhttp3.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -18,7 +19,7 @@ import retrofit2.http.Path
 
 interface ApiService {
     @POST("auth/register")
-    suspend fun register(@Body user: User): Response<Void>
+    suspend fun register(@Body user: User): Response<RefreshTokenResponse>
 
     @PUT("auth/update")
     suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
@@ -74,6 +75,6 @@ interface ApiService {
     @POST("class/create")
     suspend fun createClass(@Body classRoom: ClassRoom): Response<Void>
 
-    @POST("auth/refresh")
-    suspend fun refreshToken(@Body request: RefreshTokenRequest): RefreshTokenResponse
+    @POST("api/auth/refresh")
+    fun refreshToken(@Body body: Map<String, String>): retrofit2.Call<RefreshTokenResponse>
 }

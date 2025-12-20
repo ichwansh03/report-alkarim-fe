@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.core.AlkarimApp
+import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
 import com.ichwan.schoolreport.model.LoginRequest
@@ -54,7 +54,7 @@ class AuthActivity : AppCompatActivity() {
 
             lifecycleScope.launch {
                 try {
-                    val response = (application as AlkarimApp).apiClient.instance.login(loginRequest)
+                    val response = RetrofitClient.apiService.login(loginRequest)
                     if (!response.isSuccessful) {
                         Toast.makeText(
                             this@AuthActivity,

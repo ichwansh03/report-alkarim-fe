@@ -1,20 +1,15 @@
 package com.ichwan.schoolreport.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.api.ApiClient
-import com.ichwan.schoolreport.core.AlkarimApp
 import com.ichwan.schoolreport.model.CategoryActivity
+import com.ichwan.schoolreport.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(application: Application) : AndroidViewModel(application) {
+class CategoryViewModel(private val repository: CategoryRepository) : ViewModel() {
 
-    private val apiService by lazy {
-        getApplication<AlkarimApp>().apiClient.instance
-    }
     private val _categories = MutableLiveData<List<CategoryActivity>>()
     val categories: LiveData<List<CategoryActivity>> = _categories
 
@@ -28,7 +23,7 @@ class CategoryViewModel(application: Application) : AndroidViewModel(application
     fun loadCategories() {
         viewModelScope.launch {
             try {
-                val response = apiService.getCategory()
+                val response = repository.getCategory()
                 if (response.isSuccessful && response.body() != null) {
                     _categories.value = response.body()
                 } else {
