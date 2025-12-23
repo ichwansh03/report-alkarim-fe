@@ -52,40 +52,16 @@ class AuthActivity : AppCompatActivity() {
 
             val loginRequest = LoginRequest(regNumber, password)
 
-            lifecycleScope.launch {
-                try {
-                    val response = RetrofitClient.apiService.login(loginRequest)
-                    if (!response.isSuccessful) {
-                        Toast.makeText(
-                            this@AuthActivity,
-                            "Login failed: ${response.errorBody()?.string()}",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@launch
-                    }
+            viewModel.loginUser(loginRequest)
 
-                    val loginResponse = response.body()
-                    if (loginResponse == null) {
-                        Toast.makeText(
-                            this@AuthActivity,
-                            "Response body is null",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        return@launch
-                    }
-
+            viewModel.loginSuccess.observe(this) { success ->
+                if (success) {
                     val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                    intent.putExtra("regnumber", loginResponse.regnumber)
+                    intent.putExtra("regnumber", loginRequest.regnumber)
                     startActivity(intent)
                     finish()
-
-                } catch (e: Exception) {
-                    Toast.makeText(
-                        this@AuthActivity,
-                        "Error: ${e.localizedMessage}",
-                        Toast.LENGTH_LONG
-                    ).show()
-                    e.printStackTrace()
+                } else {
+                    Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
                 }
             }
 
