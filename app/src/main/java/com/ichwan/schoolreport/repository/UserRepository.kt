@@ -18,4 +18,6 @@ class UserRepository(private val apiService: ApiService = RetrofitClient.apiServ
 
     suspend fun getUserByRole(role: String): Response<List<User>> = apiService.getUsersByRole(role)
 
+    suspend fun getUserByRegnumber(regnumber: String): Response<User> = apiService.getUserByRegNumber(regnumber)
+
 }

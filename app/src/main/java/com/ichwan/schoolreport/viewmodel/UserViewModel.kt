@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.model.UserRole
 import com.ichwan.schoolreport.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,9 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
 
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> = _loginSuccess
+
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> = _user
 
     fun registerUser(user: User) {
         viewModelScope.launch {
@@ -66,6 +70,24 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             }
         } catch (t: Throwable) {
             _message.postValue("An error occurred: ${t.message ?: "Unknown error"}")
+        }
+    }
+
+    fun loadUserByRegnumber(regnumber: String) {
+        viewModelScope.launch {
+            try {
+                val response = repository.getUserByRegnumber(regnumber)
+                if (response.isSuccessful) {
+                    _message.value = "User found"
+                    _user.value = response.body()
+                } else {
+                    _message.value = "User not found"
+                    _user.value = null
+                }
+            } catch (e: Exception) {
+                _user.value = null
+                _message.value = "An error occurred: ${e.message}"
+            }
         }
     }
 
