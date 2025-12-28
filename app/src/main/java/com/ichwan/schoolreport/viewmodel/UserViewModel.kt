@@ -32,14 +32,11 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val response = repository.register(user)
                 if (response.isSuccessful) {
-                    _loginSuccess.value = true
                     _message.value = "User registered successfully"
                 } else {
-                    _loginSuccess.value = false
                     _message.value = "Failed to register user: ${response.message()}"
                 }
             } catch (e: Exception) {
-                _loginSuccess.value = false
                 _message.value = "An error occurred: ${e.message}"
             }
         }
@@ -50,11 +47,14 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val response = repository.login(loginRequest)
                 if (response.isSuccessful) {
+                    _loginSuccess.value = true
                     _message.value = "Login successful"
                 } else {
+                    _loginSuccess.value = false
                     _message.value = "Login failed: ${response.message()}"
                 }
             } catch (e: Exception) {
+                _loginSuccess.value = false
                 _message.value = "An error occurred: ${e.message}"
             }
         }

@@ -19,7 +19,7 @@ import retrofit2.http.Path
 
 interface ApiService {
     @POST("auth/register")
-    suspend fun register(@Body user: User): Response<RefreshTokenResponse>
+    suspend fun register(@Body user: User): Response<Void>
 
     @PUT("auth/update")
     suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
