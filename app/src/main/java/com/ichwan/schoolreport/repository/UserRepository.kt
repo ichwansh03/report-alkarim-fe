@@ -9,7 +9,7 @@ import com.ichwan.schoolreport.model.User
 import retrofit2.Response
 
 class UserRepository(private val apiService: ApiService = RetrofitClient.apiService) {
-    suspend fun register(user: User): Response<RefreshTokenResponse> = apiService.register(user)
+    suspend fun register(user: User): Response<Void> = apiService.register(user)
 
     suspend fun login(loginRequest: LoginRequest): Response<LoginResponse> = apiService.login(loginRequest)
 

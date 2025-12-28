@@ -8,7 +8,7 @@ import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.repository.ReportRepository
 import kotlinx.coroutines.launch
 
-class ReportViewModel(private val repository: ReportRepository) : ViewModel() {
+class ReportViewModel(private val repository: ReportRepository = ReportRepository()) : ViewModel() {
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message

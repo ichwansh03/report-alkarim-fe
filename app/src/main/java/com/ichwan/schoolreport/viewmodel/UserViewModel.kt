@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class UserViewModel(private val repository: UserRepository) : ViewModel() {
+class UserViewModel(private val repository: UserRepository = UserRepository()) : ViewModel() {
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
@@ -32,14 +32,11 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val response = repository.register(user)
                 if (response.isSuccessful) {
-                    _loginSuccess.value = true
                     _message.value = "User registered successfully"
                 } else {
-                    _loginSuccess.value = false
                     _message.value = "Failed to register user: ${response.message()}"
                 }
             } catch (e: Exception) {
-                _loginSuccess.value = false
                 _message.value = "An error occurred: ${e.message}"
             }
         }
@@ -50,11 +47,14 @@ class UserViewModel(private val repository: UserRepository) : ViewModel() {
             try {
                 val response = repository.login(loginRequest)
                 if (response.isSuccessful) {
+                    _loginSuccess.value = true
                     _message.value = "Login successful"
                 } else {
+                    _loginSuccess.value = false
                     _message.value = "Login failed: ${response.message()}"
                 }
             } catch (e: Exception) {
+                _loginSuccess.value = false
                 _message.value = "An error occurred: ${e.message}"
             }
         }

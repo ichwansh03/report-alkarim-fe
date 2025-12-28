@@ -9,7 +9,7 @@ import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.repository.ClassRepository
 import kotlinx.coroutines.launch
 
-class ClassViewModel(private val repository: ClassRepository) : ViewModel() {
+class ClassViewModel(private val repository: ClassRepository = ClassRepository()) : ViewModel() {
 
     // LiveData for teacher list (used in AddClassFragment)
     private val _teacherList = MutableLiveData<List<User>?>()

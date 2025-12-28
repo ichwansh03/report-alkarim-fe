@@ -8,7 +8,7 @@ import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.repository.QuestionRepository
 import kotlinx.coroutines.launch
 
-class QuestionViewModel(private val repository: QuestionRepository) : ViewModel() {
+class QuestionViewModel(private val repository: QuestionRepository = QuestionRepository()) : ViewModel() {
 
     private val _questions = MutableLiveData<List<Question>>()
     val questions: LiveData<List<Question>> = _questions

@@ -8,7 +8,7 @@ import com.ichwan.schoolreport.model.CategoryActivity
 import com.ichwan.schoolreport.repository.CategoryRepository
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(private val repository: CategoryRepository) : ViewModel() {
+class CategoryViewModel(private val repository: CategoryRepository = CategoryRepository()) : ViewModel() {
 
     private val _categories = MutableLiveData<List<CategoryActivity>>()
     val categories: LiveData<List<CategoryActivity>> = _categories
