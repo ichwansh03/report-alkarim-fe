@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Response
 
-class UserViewModel(private val repository: UserRepository) : ViewModel() {
+class UserViewModel(private val repository: UserRepository = UserRepository()) : ViewModel() {
 
     private val _users = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _users
