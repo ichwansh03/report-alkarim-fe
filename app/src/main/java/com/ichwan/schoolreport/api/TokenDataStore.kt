@@ -6,9 +6,10 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 
 //property delegate to keep an instance only, not duplicate
 val Context.dataStore : DataStore<Preferences> by preferencesDataStore("tokens")
@@ -24,21 +25,39 @@ class TokenDataStore(private val context: Context) {
         private val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     }
 
+    //in-memory cache for token
+    private var cacheAccess: String? = null
+    private var cacheRefresh: String? = null
+
+    init {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val prefs = dataStore.data.first()
+                cacheAccess = prefs[ACCESS_TOKEN]
+                cacheRefresh = prefs[REFRESH_TOKEN]
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     // each changes from token, all collected accessToken or refreshToken's would be update automatically
     suspend fun saveTokens(accessToken: String, refreshToken: String) {
         dataStore.edit { preferences ->
             preferences[ACCESS_TOKEN] = accessToken
             preferences[REFRESH_TOKEN] = refreshToken
         }
+
+        cacheAccess = accessToken
+        cacheRefresh = refreshToken
     }
-
-    val accessToken: Flow<String?> = dataStore.data.map { prefs -> prefs[ACCESS_TOKEN] }
-    val refreshToken: Flow<String?> = dataStore.data.map { prefs -> prefs[REFRESH_TOKEN] }
-
-    suspend fun getAccessToken(): String? = accessToken.first()
-    suspend fun getRefreshToken(): String? = refreshToken.first()
 
     suspend fun clearTokens() {
         dataStore.edit { it.clear() }
+        cacheAccess = null
+        cacheRefresh = null
     }
+
+    fun getAccessToken(): String? = cacheAccess
+    fun getRefreshToken(): String? = cacheRefresh
 }
