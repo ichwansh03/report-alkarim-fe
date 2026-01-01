@@ -1,15 +1,13 @@
 package com.ichwan.schoolreport.api
 
-import com.ichwan.schoolreport.model.LoginRequest
-import com.ichwan.schoolreport.model.LoginResponse
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.CategoryActivity
 import com.ichwan.schoolreport.model.ClassRoom
+import com.ichwan.schoolreport.model.LoginRequest
+import com.ichwan.schoolreport.model.LoginResponse
 import com.ichwan.schoolreport.model.Question
-import com.ichwan.schoolreport.model.RefreshTokenRequest
 import com.ichwan.schoolreport.model.RefreshTokenResponse
 import com.ichwan.schoolreport.model.User
-import okhttp3.Call
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

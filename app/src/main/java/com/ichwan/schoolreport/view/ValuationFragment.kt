@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.ichwan.schoolreport.R
 import com.ichwan.schoolreport.databinding.FragmentValuationBinding
 
 class ValuationFragment : Fragment() {

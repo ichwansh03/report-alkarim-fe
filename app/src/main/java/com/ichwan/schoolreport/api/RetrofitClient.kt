@@ -7,48 +7,52 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-object RetrofitClient {
+class RetrofitClient(private val context: Context) {
 
-    private const val BASE_URL = "http://10.0.2.2:8080/"
-    private lateinit var tokenDataStore: TokenDataStore
-
-    fun init(context: Context) {
-        tokenDataStore = TokenDataStore(context.applicationContext)
+    companion object {
+        private const val BASE_URL = "http://10.0.2.2:8080/"
+    }
+    private val tokenDataStore = TokenDataStore(context)
+    private val loggingInterceptor = HttpLoggingInterceptor().apply { level =
+        HttpLoggingInterceptor.Level.BODY
     }
 
-    private val retrofit : Retrofit by lazy {
-        val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-        val client = OkHttpClient.Builder()
-            .addInterceptor(logging)
-            .build()
-
+    private val unauthenticatedRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(client)
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(loggingInterceptor)
+                    .build()
+            )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     val cleanApiService: ApiService by lazy {
-        retrofit.create(ApiService::class.java)
+        unauthenticatedRetrofit.create(ApiService::class.java)
     }
 
-    private val authRetrofit: Retrofit by lazy {
-        val logging = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
-        val authClient = OkHttpClient.Builder()
-            .addInterceptor(AuthInterceptor(tokenDataStore))
-            .addInterceptor(logging)
-            .authenticator(TokenAuthenticator(cleanApiService, tokenDataStore))
-            .build()
+    private val tokenAuthenticator by lazy {
+        TokenAuthenticator(cleanApiService, tokenDataStore)
+    }
 
+    private val authenticatedRetrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(authClient)
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(AuthInterceptor(tokenDataStore))
+                    .addInterceptor(loggingInterceptor)
+                    .authenticator(tokenAuthenticator)
+                    .build()
+            )
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
 
     val apiService: ApiService by lazy {
-        authRetrofit.create(ApiService::class.java)
+        authenticatedRetrofit.create(ApiService::class.java)
     }
+
 }
