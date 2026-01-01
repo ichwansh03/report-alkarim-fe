@@ -7,11 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ichwan.schoolreport.adapter.ListStudentAdapter
 import com.ichwan.schoolreport.databinding.FragmentUserListBinding
 import com.ichwan.schoolreport.viewmodel.UserViewModel
-import androidx.fragment.app.viewModels
+
 class UserListFragment : Fragment() {
 
     private var _binding: FragmentUserListBinding? = null

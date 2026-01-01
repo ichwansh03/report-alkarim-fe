@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
 import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
-import com.ichwan.schoolreport.viewmodel.UserViewModel
-import kotlinx.coroutines.launch
+import com.ichwan.schoolreport.viewmodel.AuthViewModel
 
 class AuthActivity : AppCompatActivity() {
 
-    private val viewModel: UserViewModel by viewModels()
+    private val authViewModel: AuthViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,7 +35,7 @@ class AuthActivity : AppCompatActivity() {
 
             val user = User(name, regNumber, room, roles, gender, password)
 
-            viewModel.registerUser(user)
+            authViewModel.registerUser(user)
             showLoginScreen()
         }
     }
@@ -52,9 +50,9 @@ class AuthActivity : AppCompatActivity() {
 
             val loginRequest = LoginRequest(regNumber, password)
 
-            viewModel.loginUser(loginRequest)
+            authViewModel.loginUser(loginRequest)
 
-            viewModel.loginSuccess.observe(this) { success ->
+            authViewModel.loginSuccess.observe(this) { success ->
                 if (success) {
                     val intent = Intent(this@AuthActivity, MainActivity::class.java)
                     intent.putExtra("regnumber", loginRequest.regnumber)

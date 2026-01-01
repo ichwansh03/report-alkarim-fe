@@ -1,12 +1,11 @@
 package com.ichwan.schoolreport.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
-import com.ichwan.schoolreport.model.UserRole
 import com.ichwan.schoolreport.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -21,44 +20,9 @@ class UserViewModel(private val repository: UserRepository = UserRepository()) :
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
 
-    private val _loginSuccess = MutableLiveData<Boolean>()
-    val loginSuccess: LiveData<Boolean> = _loginSuccess
-
     private val _user = MutableLiveData<User?>()
     val user: LiveData<User?> = _user
 
-    fun registerUser(user: User) {
-        viewModelScope.launch {
-            try {
-                val response = repository.register(user)
-                if (response.isSuccessful) {
-                    _message.value = "User registered successfully"
-                } else {
-                    _message.value = "Failed to register user: ${response.message()}"
-                }
-            } catch (e: Exception) {
-                _message.value = "An error occurred: ${e.message}"
-            }
-        }
-    }
-
-    fun loginUser(loginRequest: LoginRequest) {
-        viewModelScope.launch {
-            try {
-                val response = repository.login(loginRequest)
-                if (response.isSuccessful) {
-                    _loginSuccess.value = true
-                    _message.value = "Login successful"
-                } else {
-                    _loginSuccess.value = false
-                    _message.value = "Login failed: ${response.message()}"
-                }
-            } catch (e: Exception) {
-                _loginSuccess.value = false
-                _message.value = "An error occurred: ${e.message}"
-            }
-        }
-    }
 
     private suspend fun fetchUsers(request: suspend () -> Response<List<User>>) {
         try {
@@ -77,16 +41,20 @@ class UserViewModel(private val repository: UserRepository = UserRepository()) :
         viewModelScope.launch {
             try {
                 val response = repository.getUserByRegnumber(regnumber)
+                Log.i("UserViewModel", "loadUserByRegnumber: $response")
                 if (response.isSuccessful) {
                     _message.value = "User found"
                     _user.value = response.body()
+                    Log.i("UserViewModel", "loadUserByRegnumber: success response")
                 } else {
                     _message.value = "User not found"
                     _user.value = null
+                    Log.i("UserViewModel", "loadUserByRegnumber: failed response")
                 }
             } catch (e: Exception) {
                 _user.value = null
                 _message.value = "An error occurred: ${e.message}"
+                Log.i("UserViewModel", "loadUserByRegnumber: error response")
             }
         }
     }

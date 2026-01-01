@@ -1,20 +1,17 @@
 package com.ichwan.schoolreport.view
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.google.android.material.tabs.TabLayoutMediator
-import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.databinding.ActivityAdminBinding
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
-import com.ichwan.schoolreport.model.UserRole
 import com.ichwan.schoolreport.viewmodel.QuestionViewModel
 import com.ichwan.schoolreport.viewmodel.ReportViewModel
 import com.ichwan.schoolreport.viewmodel.UserViewModel
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -35,6 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         userViewModel.loadUserByRegnumber(regNumber)
         userViewModel.user.observe(this) { user ->
+            Log.i("MainActivity", "onCreate: user roles: ${user?.roles}")
             when (user?.roles) {
                 "STUDENT" -> {
                     val binding = ActivityStudentBinding.inflate(layoutInflater)
