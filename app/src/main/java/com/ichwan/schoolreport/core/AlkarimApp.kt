@@ -7,8 +7,12 @@ import com.ichwan.schoolreport.api.RetrofitClient
 // this class will be called before anything else and always life even app closed
 class AlkarimApp : Application() {
 
+    val retrofitClient: RetrofitClient by lazy {
+        RetrofitClient(this)
+    }
+
     override fun onCreate() {
         super.onCreate()
-        RetrofitClient.init(this)
     }
+
 }
