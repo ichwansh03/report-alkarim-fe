@@ -12,32 +12,36 @@ class TokenAuthenticator(
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         synchronized(this) {
-            val refreshToken = runBlocking { tokenDataStore.getRefreshToken() } ?: return null
+            val refreshToken = tokenDataStore.getRefreshToken() ?: return null
 
-            try {
-                val refreshCall = cleanApiService.refreshToken(mapOf("refreshToken" to refreshToken))
-                val refreshResponse = refreshCall.execute()
+            return try {
+                val refreshResponse = cleanApiService.refreshToken(
+                    mapOf("refreshToken" to refreshToken)
+                ).execute()
 
-                if (!refreshResponse.isSuccessful) {
-                    if (refreshResponse.code() == 401 || refreshResponse.code() == 403) {
-                        runBlocking { tokenDataStore.clearTokens() }  // Wrap di runBlocking
-                        // Optional: Trigger logout event di sini (misal via LiveData atau callback)
-                    }
-                    return null
+                if (refreshResponse.isSuccessful) {
+                    val newTokens = refreshResponse.body() ?: return null
+
+                    runBlocking { tokenDataStore.saveTokens(newTokens.accessToken, newTokens.refreshToken) }
+
+                    response.request.newBuilder()
+                        .header("Authorization", "Bearer ${newTokens.accessToken}")
+                        .build()
+                } else {
+                    handleAuthFailure(refreshResponse.code())
+                    null
                 }
-
-                val tokenResponse = refreshResponse.body() ?: return null
-
-                runBlocking {
-                    tokenDataStore.saveTokens(tokenResponse.accessToken, tokenResponse.refreshToken)
-                }
-
-                return response.request.newBuilder()
-                    .header("Authorization", "Bearer ${tokenResponse.accessToken}")
-                    .build()
             } catch (e: Exception) {
-                return null
+                handleAuthFailure(0)
+                e.printStackTrace()
+                null
             }
+        }
+    }
+
+    private fun handleAuthFailure(responseCode: Int) {
+        if (responseCode == 401 || responseCode == 403 || responseCode == 0) {
+            runBlocking { tokenDataStore.clearTokens() }
         }
     }
 }

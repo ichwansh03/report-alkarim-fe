@@ -8,7 +8,7 @@ class AuthInterceptor(private val tokenDataStore: TokenDataStore) : Interceptor 
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val requestBuilder = chain.request()
-        val accessToken = runBlocking { tokenDataStore.getAccessToken() } ?: return chain.proceed(requestBuilder)
+        val accessToken = tokenDataStore.getAccessToken() ?: return chain.proceed(requestBuilder)
 
         val authorizeRequest = requestBuilder.newBuilder()
             .header("Authorization", "Bearer $accessToken")
