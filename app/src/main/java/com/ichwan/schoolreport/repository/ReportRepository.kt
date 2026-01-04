@@ -1,7 +1,6 @@
 package com.ichwan.schoolreport.repository
 
 import com.ichwan.schoolreport.api.ApiService
-import com.ichwan.schoolreport.api.RetrofitClient
 import com.ichwan.schoolreport.core.RetrofitClientWrapper
 import com.ichwan.schoolreport.model.ActivityReport
 

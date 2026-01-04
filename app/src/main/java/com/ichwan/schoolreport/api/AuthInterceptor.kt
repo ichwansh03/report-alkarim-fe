@@ -1,6 +1,5 @@
 package com.ichwan.schoolreport.api
 
-import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
 
