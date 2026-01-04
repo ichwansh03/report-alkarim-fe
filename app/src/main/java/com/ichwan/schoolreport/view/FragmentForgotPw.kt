@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.RetrofitClient
+import com.ichwan.schoolreport.core.RetrofitClientWrapper
 import com.ichwan.schoolreport.databinding.FragmentForgotPwBinding
 import com.ichwan.schoolreport.model.LoginRequest
 import kotlinx.coroutines.launch
@@ -47,7 +47,7 @@ class FragmentForgotPw : Fragment() {
 
             viewLifecycleOwner.lifecycleScope.launch {
                 try {
-                    val response = RetrofitClient.apiService.updatePassword(loginRequest)
+                    val response = RetrofitClientWrapper.apiService.updatePassword(loginRequest)
                     if (response.isSuccessful) {
                         Toast.makeText(requireContext(), "Password updated successfully", Toast.LENGTH_SHORT).show()
                         parentFragmentManager.popBackStack()

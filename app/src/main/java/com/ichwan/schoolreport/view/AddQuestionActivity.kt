@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.ichwan.schoolreport.api.RetrofitClient
+import com.ichwan.schoolreport.core.RetrofitClientWrapper
 import com.ichwan.schoolreport.databinding.ActivityAddQuestionBinding
 import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.viewmodel.CategoryViewModel
@@ -83,7 +83,7 @@ class AddQuestionActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = RetrofitClient.apiService.createQuestion(question)
+                val response = RetrofitClientWrapper.apiService.createQuestion(question)
                 if (response.isSuccessful) {
                     Toast.makeText(this@AddQuestionActivity, "Question created successfully", Toast.LENGTH_SHORT).show()
                     finish()
