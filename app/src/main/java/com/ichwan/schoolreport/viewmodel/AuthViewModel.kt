@@ -1,15 +1,20 @@
 package com.ichwan.schoolreport.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ichwan.schoolreport.api.TokenDataStore
 import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.repository.AuthRepository
 import kotlinx.coroutines.launch
 
-class AuthViewModel(private val repository: AuthRepository = AuthRepository()) : ViewModel() {
+class AuthViewModel(application: Application) : AndroidViewModel(application) {
+
+    private val repository = AuthRepository()
+    private val tokenDataStore = TokenDataStore(application)
 
     private val _message = MutableLiveData<String>()
     val message: LiveData<String> = _message
@@ -36,16 +41,24 @@ class AuthViewModel(private val repository: AuthRepository = AuthRepository()) :
         viewModelScope.launch {
             try {
                 val response = repository.login(loginRequest)
-                if (response.isSuccessful) {
-                    _loginSuccess.value = true
+                if (response.isSuccessful && response.body() != null) {
+                    val loginResponse = response.body()!!
+                    
+                    // PENTING: Simpan token dan TUNGGU sampai selesai sebelum lanjut
+                    // Kita simpan token response sebagai access token. 
+                    // Jika backend belum kirim refresh token terpisah, kita simpan string kosong atau token yang sama.
+                    tokenDataStore.saveTokens(loginResponse.token, loginResponse.token)
+                    
                     _message.value = "Login successful"
+                    // Baru setelah token tersimpan aman, kita trigger navigasi
+                    _loginSuccess.value = true
                 } else {
-                    _loginSuccess.value = false
                     _message.value = "Login failed: ${response.message()}"
+                    _loginSuccess.value = false
                 }
             } catch (e: Exception) {
-                _loginSuccess.value = false
                 _message.value = "An error occurred: ${e.message}"
+                _loginSuccess.value = false
             }
         }
     }

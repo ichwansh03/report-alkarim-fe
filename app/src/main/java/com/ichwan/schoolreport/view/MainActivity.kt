@@ -5,7 +5,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.material.tabs.TabLayoutMediator
+import com.ichwan.schoolreport.R
 import com.ichwan.schoolreport.databinding.ActivityAdminBinding
 import com.ichwan.schoolreport.databinding.ActivityStudentBinding
 import com.ichwan.schoolreport.databinding.ActivityTeacherBinding
@@ -22,6 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // 1. Tampilkan Loading Screen segera saat aplikasi dibuka
+        setContentView(R.layout.activity_loading)
+
         val regNumber = intent.getStringExtra("regnumber")
 
         if (regNumber.isNullOrEmpty()) {
@@ -30,38 +33,47 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        //401 Unauthorized http://10.0.2.2:8080/auth/user/1231234
+        // Amati pesan error dari ViewModel (misal: gagal koneksi)
+        userViewModel.message.observe(this) { msg ->
+            if (msg != null && (msg.contains("Failed") || msg.contains("error"))) {
+                Toast.makeText(this, "Error loading user: $msg", Toast.LENGTH_LONG).show()
+                // Opsional: Redirect kembali ke login atau tampilkan tombol retry
+            }
+        }
+
         userViewModel.loadUserByRegnumber(regNumber)
+        
         userViewModel.user.observe(this) { user ->
             Log.i("MainActivity", "onCreate: user roles: ${user?.roles}")
             Log.d("MainActivity", "onCreate: user: $user")
-            when (user?.roles) {
-                "STUDENT" -> {
-                    val binding = ActivityStudentBinding.inflate(layoutInflater)
-                    setContentView(binding.root)
-                    StudentHelper(this@MainActivity, binding, user, questionViewModel, reportViewModel)
+            
+            if (user != null) {
+                // 2. Data User ditemukan, ganti layout sesuai Role
+                when (user.roles) {
+                    "STUDENT" -> {
+                        val binding = ActivityStudentBinding.inflate(layoutInflater)
+                        setContentView(binding.root)
+                        StudentHelper(this@MainActivity, binding, user, questionViewModel, reportViewModel)
+                    }
+                    "TEACHER" -> {
+                        val binding = ActivityTeacherBinding.inflate(layoutInflater)
+                        setContentView(binding.root)
+                        TeacherHelper(this@MainActivity, userViewModel, user)
+                    }
+                    "ADMINISTRATOR" -> {
+                        val binding = ActivityAdminBinding.inflate(layoutInflater)
+                        setContentView(binding.root)
+                        // Gunakan metode baru yang lebih bersih
+                        val adminHelper = AdminHelper(this@MainActivity, binding)
+                        adminHelper.setupTabs()
+                    }
+                    else -> {
+                        Toast.makeText(this, "Role unknown: ${user.roles}", Toast.LENGTH_SHORT).show()
+                    }
                 }
-                "TEACHER" -> {
-                    val binding = ActivityTeacherBinding.inflate(layoutInflater)
-                    setContentView(binding.root)
-                    TeacherHelper(this@MainActivity, userViewModel, user)
-                }
-                "ADMINISTRATOR" -> {
-                    val binding = ActivityAdminBinding.inflate(layoutInflater)
-                    setContentView(binding.root)
-                    AdminHelper(this@MainActivity)
-                    val viewPager = binding.viewPager
-                    val tabLayout = binding.tabLayout
-                    viewPager.adapter = AdminHelper(this@MainActivity).adapter
-                    // The mediator now sets the title for the third tab
-                    TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-                        tab.text = when (position) {
-                            0 -> "Siswa"
-                            1 -> "Guru"
-                            else -> "Kelas" // Title for the new tab
-                        }
-                    }.attach()
-                }
+            } else {
+                 // User null (mungkin masih loading atau gagal)
+                 // Jika loading sudah selesai tapi user tetap null, Anda mungkin perlu menangani kasus ini.
             }
         }
     }
