@@ -1,6 +1,7 @@
 package com.ichwan.schoolreport.api
 
 import android.content.Context
+import android.util.Log
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -13,8 +14,11 @@ class RetrofitClient(private val context: Context) {
         private const val BASE_URL = "http://10.0.2.2:8080/"
     }
     private val tokenDataStore = TokenDataStore(context)
-    private val loggingInterceptor = HttpLoggingInterceptor().apply { level =
-        HttpLoggingInterceptor.Level.BODY
+
+    private val loggingInterceptor = HttpLoggingInterceptor { message ->
+        Log.d("API_PAYLOAD", message)
+    }.apply {
+        level = HttpLoggingInterceptor.Level.BODY
     }
 
     private val unauthenticatedRetrofit: Retrofit by lazy {

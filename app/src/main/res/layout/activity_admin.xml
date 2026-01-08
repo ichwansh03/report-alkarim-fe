@@ -34,6 +34,12 @@
             android:icon="@drawable/ic_chevron_left_black_24dp"/>
     </com.google.android.material.tabs.TabLayout>
 
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/load_admin_indicator"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:indeterminate="true" />
+
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

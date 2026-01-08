@@ -30,9 +30,11 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
+        //401 Unauthorized http://10.0.2.2:8080/auth/user/1231234
         userViewModel.loadUserByRegnumber(regNumber)
         userViewModel.user.observe(this) { user ->
             Log.i("MainActivity", "onCreate: user roles: ${user?.roles}")
+            Log.d("MainActivity", "onCreate: user: $user")
             when (user?.roles) {
                 "STUDENT" -> {
                     val binding = ActivityStudentBinding.inflate(layoutInflater)
