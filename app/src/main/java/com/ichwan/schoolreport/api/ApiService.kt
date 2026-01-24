@@ -22,16 +22,16 @@ interface ApiService {
     @PUT("auth/update")
     suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
 
-    @GET("auth/class/{class}/roles/{roles}")
+    @GET("user/class/{class}/roles/{roles}")
     suspend fun getUsersByClassAndRoles(
         @Path("class") classValue: String,
         @Path("roles") roles: String
     ): Response<List<User>>
 
-    @GET("auth/user/{regnumber}")
+    @GET("user/{regnumber}")
     suspend fun getUserByRegNumber(@Path("regnumber") regNumber: String): Response<User>
 
-    @GET("auth/roles/{role}")
+    @GET("user/roles/{role}")
     suspend fun getUsersByRole(@Path("role") role: String): Response<List<User>>
 
     @PUT("auth/user/{regnumber}")
