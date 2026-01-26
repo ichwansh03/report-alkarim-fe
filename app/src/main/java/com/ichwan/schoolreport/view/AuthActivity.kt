@@ -54,10 +54,15 @@ class AuthActivity : AppCompatActivity() {
 
             authViewModel.loginSuccess.observe(this) { success ->
                 if (success) {
-                    val intent = Intent(this@AuthActivity, MainActivity::class.java)
-                    intent.putExtra("regnumber", loginRequest.regnumber)
-                    startActivity(intent)
-                    finish()
+                    authViewModel.userRole.observe(this) { role ->
+                        if (role != null) {
+                            val intent = Intent(this@AuthActivity, MainActivity::class.java)
+                            intent.putExtra("regnumber", loginRequest.regnumber)
+                            intent.putExtra("role", role)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
                 } else {
                     Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
                 }

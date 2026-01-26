@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 
-class RetrofitClient(private val context: Context) {
+class RetrofitClient(context: Context) {
 
     companion object {
         private const val BASE_URL = "http://10.0.2.2:8080/"

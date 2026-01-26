@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 1. Tampilkan Loading Screen segera saat aplikasi dibuka
         setContentView(R.layout.activity_loading)
 
         val regNumber = intent.getStringExtra("regnumber")
+        val role = intent.getStringExtra("role")
 
         if (regNumber.isNullOrEmpty()) {
             Toast.makeText(this, "Registration number not found.", Toast.LENGTH_SHORT).show()
@@ -33,23 +33,23 @@ class MainActivity : AppCompatActivity() {
             return
         }
 
-        // Amati pesan error dari ViewModel (misal: gagal koneksi)
-        userViewModel.message.observe(this) { msg ->
-            if (msg != null && (msg.contains("Failed") || msg.contains("error"))) {
-                Toast.makeText(this, "Error loading user: $msg", Toast.LENGTH_LONG).show()
-                // Opsional: Redirect kembali ke login atau tampilkan tombol retry
-            }
+        if (role.isNullOrEmpty()) {
+            Toast.makeText(this, "User role not found.", Toast.LENGTH_SHORT).show()
+            finish()
+            return
         }
 
+        Log.i("MainActivity", "onCreate: user role from login: $role")
+
+        // Load user data for additional information needed by helpers
         userViewModel.loadUserByRegnumber(regNumber)
         
         userViewModel.user.observe(this) { user ->
-            Log.i("MainActivity", "onCreate: user roles: ${user?.roles}")
             Log.d("MainActivity", "onCreate: user: $user")
             
             if (user != null) {
-                // 2. Data User ditemukan, ganti layout sesuai Role
-                when (user.roles) {
+                // Use role from login response to determine layout
+                when (role) {
                     "STUDENT" -> {
                         val binding = ActivityStudentBinding.inflate(layoutInflater)
                         setContentView(binding.root)
@@ -63,17 +63,15 @@ class MainActivity : AppCompatActivity() {
                     "ADMINISTRATOR" -> {
                         val binding = ActivityAdminBinding.inflate(layoutInflater)
                         setContentView(binding.root)
-                        // Gunakan metode baru yang lebih bersih
                         val adminHelper = AdminHelper(this@MainActivity, binding)
                         adminHelper.setupTabs()
                     }
                     else -> {
-                        Toast.makeText(this, "Role unknown: ${user.roles}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Role unknown: $role", Toast.LENGTH_SHORT).show()
                     }
                 }
             } else {
-                 // User null (mungkin masih loading atau gagal)
-                 // Jika loading sudah selesai tapi user tetap null, Anda mungkin perlu menangani kasus ini.
+                Toast.makeText(this, "Error loading user data", Toast.LENGTH_LONG).show()
             }
         }
     }

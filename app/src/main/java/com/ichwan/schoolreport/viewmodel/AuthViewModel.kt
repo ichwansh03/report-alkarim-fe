@@ -22,6 +22,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
     private val _loginSuccess = MutableLiveData<Boolean>()
     val loginSuccess: LiveData<Boolean> = _loginSuccess
 
+    private val _userRole = MutableLiveData<String>()
+    val userRole: LiveData<String> = _userRole
+
     fun registerUser(user: User) {
         viewModelScope.launch {
             try {
@@ -44,13 +47,9 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
                     
-                    // PENTING: Simpan token dan TUNGGU sampai selesai sebelum lanjut
-                    // Kita simpan token response sebagai access token. 
-                    // Jika backend belum kirim refresh token terpisah, kita simpan string kosong atau token yang sama.
                     tokenDataStore.saveTokens(loginResponse.token, loginResponse.token)
-                    
+                    _userRole.value = loginResponse.user.roles
                     _message.value = "Login successful"
-                    // Baru setelah token tersimpan aman, kita trigger navigasi
                     _loginSuccess.value = true
                 } else {
                     _message.value = "Login failed: ${response.message()}"
