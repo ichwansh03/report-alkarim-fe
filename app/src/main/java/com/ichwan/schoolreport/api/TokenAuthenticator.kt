@@ -12,7 +12,8 @@ class TokenAuthenticator(
 ) : Authenticator {
     override fun authenticate(route: Route?, response: Response): Request? {
         synchronized(this) {
-            val refreshToken = tokenDataStore.getRefreshToken() ?: return null
+
+            val refreshToken = runBlocking { tokenDataStore.getRefreshToken() } ?: return null
 
             return try {
                 val refreshResponse = cleanApiService.refreshToken(
@@ -21,9 +22,9 @@ class TokenAuthenticator(
 
                 if (refreshResponse.isSuccessful) {
                     val newTokens = refreshResponse.body() ?: return null
-
-                    runBlocking { tokenDataStore.saveTokens(newTokens.accessToken, newTokens.refreshToken) }
-
+                    runBlocking {
+                        tokenDataStore.saveTokens(newTokens.accessToken, newTokens.refreshToken)
+                    }
                     response.request.newBuilder()
                         .header("Authorization", "Bearer ${newTokens.accessToken}")
                         .build()
