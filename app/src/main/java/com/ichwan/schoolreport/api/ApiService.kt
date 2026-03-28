@@ -1,6 +1,7 @@
 package com.ichwan.schoolreport.api
 
 import com.ichwan.schoolreport.model.ActivityReport
+import com.ichwan.schoolreport.model.BaseResponse
 import com.ichwan.schoolreport.model.CategoryActivity
 import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.LoginRequest
@@ -19,6 +20,9 @@ interface ApiService {
     @POST("auth/register")
     suspend fun register(@Body user: User): Response<Void>
 
+    @POST("auth/login")
+    suspend fun login(@Body loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>>
+
     @PUT("auth/update")
     suspend fun updatePassword(@Body loginRequest: LoginRequest): Response<Void>
 
@@ -36,9 +40,6 @@ interface ApiService {
 
     @PUT("auth/user/{regnumber}")
     suspend fun updateUser(@Path("regnumber") regNumber: String, @Body user: User): Response<Void>
-
-    @POST("auth/login")
-    suspend fun login(@Body loginRequest: LoginRequest): Response<LoginResponse>
 
     @POST("/reports/create")
     suspend fun createReport(@Body activityReport: ActivityReport): Response<Void>
