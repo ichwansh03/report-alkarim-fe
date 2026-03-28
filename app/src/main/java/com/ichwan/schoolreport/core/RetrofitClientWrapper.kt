@@ -9,8 +9,10 @@ object RetrofitClientWrapper {
     lateinit var cleanApiService: ApiService
 
     fun init(context: Context) {
-        val client = RetrofitClient(context)
+        // ✅ Use applicationContext to avoid memory leaks
+        val client = RetrofitClient(context.applicationContext)
         apiService = client.apiService
         cleanApiService = client.cleanApiService
     }
+
 }

@@ -46,8 +46,12 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 val response = repository.login(loginRequest)
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
-                    
-                    tokenDataStore.saveTokens(loginResponse.data.token, loginResponse.data.token)
+
+                    val token = loginResponse.data.token
+                    tokenDataStore.saveTokens(
+                        accessToken = token,
+                        refreshToken = token // replace when backend returns a real refresh token
+                    )
                     _userRole.value = loginResponse.data.user.roles
                     _message.value = "Login successful"
                     _loginSuccess.value = true
