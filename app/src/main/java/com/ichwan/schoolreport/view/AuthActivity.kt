@@ -2,6 +2,7 @@ package com.ichwan.schoolreport.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -47,7 +48,6 @@ class AuthActivity : AppCompatActivity() {
         loginBinding.loginBtn.setOnClickListener {
             val regNumber = loginBinding.idNumberEt.text.toString()
             val password = loginBinding.passwordEt.text.toString()
-
             val loginRequest = LoginRequest(regNumber, password)
 
             authViewModel.loginUser(loginRequest)
@@ -67,13 +67,12 @@ class AuthActivity : AppCompatActivity() {
                     Toast.makeText(this, "Login failed", Toast.LENGTH_SHORT).show()
                 }
             }
-
         }
 
         loginBinding.registerBtn.setOnClickListener {
             showRegisterScreen()
         }
-        
+
         loginBinding.forgotPwTv.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .add(android.R.id.content, FragmentForgotPw())
