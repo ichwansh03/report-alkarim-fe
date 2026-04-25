@@ -10,8 +10,10 @@ import retrofit2.Response
 
 class AuthRepository(private val apiService: ApiService = RetrofitClientWrapper.cleanApiService) {
 
-    suspend fun register(user: User): Response<Void> = apiService.register(user)
+    suspend fun register(user: User): Response<BaseResponse<User>> = apiService.register(user)
 
     suspend fun login(loginRequest: LoginRequest): Response<BaseResponse<LoginResponse>> = apiService.login(loginRequest)
+
+    suspend fun testAuth(): Response<BaseResponse<String>> = apiService.testAuth()
 
 }

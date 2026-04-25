@@ -53,11 +53,13 @@ class MainActivity : AppCompatActivity() {
                     "STUDENT" -> {
                         val binding = ActivityStudentBinding.inflate(layoutInflater)
                         setContentView(binding.root)
+                        binding.greetingTv.text = getString(R.string.greeting_format, user.name)
                         StudentHelper(this@MainActivity, binding, user, questionViewModel, reportViewModel)
                     }
                     "TEACHER" -> {
                         val binding = ActivityTeacherBinding.inflate(layoutInflater)
                         setContentView(binding.root)
+                        binding.greetingTv.text = getString(R.string.greeting_format, user.name)
                         TeacherHelper(this@MainActivity, userViewModel, user)
                     }
                     "ADMINISTRATOR" -> {

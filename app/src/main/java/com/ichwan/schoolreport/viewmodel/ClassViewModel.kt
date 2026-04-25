@@ -7,9 +7,13 @@ import androidx.lifecycle.viewModelScope
 import com.ichwan.schoolreport.model.ClassRoom
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.repository.ClassRepository
+import com.ichwan.schoolreport.repository.UserRepository
 import kotlinx.coroutines.launch
 
-class ClassViewModel(private val repository: ClassRepository = ClassRepository()) : ViewModel() {
+class ClassViewModel(
+    private val repository: ClassRepository = ClassRepository(),
+    private val userRepository: UserRepository = UserRepository()
+) : ViewModel() {
 
     // LiveData for teacher list (used in AddClassFragment)
     private val _teacherList = MutableLiveData<List<User>?>()
@@ -34,9 +38,9 @@ class ClassViewModel(private val repository: ClassRepository = ClassRepository()
     fun loadClasses() {
         viewModelScope.launch {
             try {
-                val response = repository.getClass()
+                val response = repository.getAllClassRoom(0, 100)
                 if (response.isSuccessful) {
-                    _classList.postValue(response.body())
+                    _classList.postValue(response.body()?.data)
                 } else {
                     _message.postValue("Error fetching classes: ${response.message()}")
                     _classList.postValue(null)
@@ -51,9 +55,9 @@ class ClassViewModel(private val repository: ClassRepository = ClassRepository()
     private fun loadTeachers() {
         viewModelScope.launch {
             try {
-                val response = repository.getUserByRole("TEACHER")
+                val response = userRepository.getUserByRole("TEACHER")
                 if (response.isSuccessful) {
-                    _teacherList.postValue(response.body())
+                    _teacherList.postValue(response.body()?.data)
                 } else {
                     _message.postValue("Error fetching teachers: ${response.message()}")
                     _teacherList.postValue(null)
@@ -79,7 +83,7 @@ class ClassViewModel(private val repository: ClassRepository = ClassRepository()
             try {
                 // studentTotal is 0 because this is a new class
                 val newClass = ClassRoom(name = className, teacher = teacherName, studentTotal = 0)
-                val response = repository.createClass(newClass)
+                val response = repository.createClassRoom(newClass)
                 if (response.isSuccessful) {
                     _message.postValue("Class '$className' created successfully")
                     _creationSuccess.postValue(true)

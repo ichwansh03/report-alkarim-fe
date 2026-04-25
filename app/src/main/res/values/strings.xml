@@ -83,4 +83,5 @@ Ichwan Sholihin</string>
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="greeting_format">Assalamualaikum, %1$s</string>
 </resources>
