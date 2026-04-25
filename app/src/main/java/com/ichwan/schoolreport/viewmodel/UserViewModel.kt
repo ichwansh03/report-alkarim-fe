@@ -54,7 +54,7 @@ class UserViewModel(private val repository: UserRepository = UserRepository()) :
             } catch (e: Exception) {
                 _user.value = null
                 _message.value = "An error occurred: ${e.message}"
-                Log.i("UserViewModel", "loadUserByRegnumber: error response")
+                Log.i("UserViewModel", "loadUserByRegnumber: error response ${e.message}")
             }
         }
     }
