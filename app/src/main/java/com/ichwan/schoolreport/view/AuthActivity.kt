@@ -2,7 +2,6 @@ package com.ichwan.schoolreport.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -10,6 +9,7 @@ import com.ichwan.schoolreport.databinding.ActivityLoginBinding
 import com.ichwan.schoolreport.databinding.ActivityRegisterBinding
 import com.ichwan.schoolreport.model.LoginRequest
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.util.UserRole
 import com.ichwan.schoolreport.viewmodel.AuthViewModel
 
 class AuthActivity : AppCompatActivity() {
@@ -29,12 +29,25 @@ class AuthActivity : AppCompatActivity() {
         registerBinding.saveBtn.setOnClickListener {
             val name = registerBinding.nameEditText.text.toString()
             val regNumber = registerBinding.regnumberEditText.text.toString()
-            val room = registerBinding.roomEditText.text.toString()
-            val roles = registerBinding.rolesSpinner.selectedItem.toString()
+            val clsroom = registerBinding.roomEditText.text.toString()
+            val rolesStr = registerBinding.rolesSpinner.selectedItem.toString()
             val gender = registerBinding.genderSpinner.selectedItem.toString()
             val password = registerBinding.passwordEditText.text.toString()
 
-            val user = User(name, regNumber, room, roles, gender, password)
+            val role = try {
+                UserRole.valueOf(rolesStr.uppercase())
+            } catch (e: Exception) {
+                UserRole.STUDENT
+            }
+
+            val user = User(
+                name = name,
+                regnumber = regNumber,
+                clsroom = clsroom,
+                roles = role,
+                gender = gender,
+                password = password
+            )
 
             authViewModel.registerUser(user)
             showLoginScreen()

@@ -25,7 +25,7 @@ class CategoryViewModel(private val repository: CategoryRepository = CategoryRep
             try {
                 val response = repository.getCategory()
                 if (response.isSuccessful && response.body() != null) {
-                    _categories.value = response.body()
+                    _categories.value = response.body()?.data ?: emptyList()
                 } else {
                     _message.value = "Failed to load categories: ${response.message()}"
                 }

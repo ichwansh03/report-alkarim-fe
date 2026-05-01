@@ -18,9 +18,9 @@ class ReportViewModel(private val repository: ReportRepository = ReportRepositor
             try {
                 val response = repository.createReport(report)
                 if (response.isSuccessful) {
-                    _message.value = "Report added successfully"
+                    _message.value = "Report saved successfully"
                 } else {
-                    _message.value = "Failed to add report: ${response.message()}"
+                    _message.value = "Failed to save report: ${response.message()}"
                 }
             } catch (e: Exception) {
                 _message.value = "An error occurred: ${e.message}"
