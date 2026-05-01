@@ -30,7 +30,7 @@ class EditUserActivity : AppCompatActivity() {
             try {
                 val response = RetrofitClientWrapper.apiService.getUserByRegNumber(regnumber)
                 if (response.isSuccessful) {
-                    user = response.body()
+                    user = response.body()?.data
                     populateForm()
                 } else {
                     Toast.makeText(this@EditUserActivity, "Failed to load user data: ${response.message()}", Toast.LENGTH_SHORT).show()
@@ -49,7 +49,7 @@ class EditUserActivity : AppCompatActivity() {
         user?.let {
             binding.editRegnumber.setText(it.regnumber)
             binding.editName.setText(it.name)
-            binding.editClass.setText(it.room)
+            binding.editClass.setText(it.clsroom)
             if (it.gender.equals("Laki-laki", ignoreCase = true)) {
                 binding.maleRadioButton.isChecked = true
             } else {
@@ -62,15 +62,15 @@ class EditUserActivity : AppCompatActivity() {
         val updatedUser = user?.copy(
             regnumber = binding.editRegnumber.text.toString(),
             name = binding.editName.text.toString(),
-            room = binding.editClass.text.toString(),
+            clsroom = binding.editClass.text.toString(),
             gender = if (binding.maleRadioButton.isChecked) "Laki-laki" else "Perempuan"
         )
 
-        if (updatedUser != null) {
+        if (updatedUser != null && updatedUser.id != null) {
             lifecycleScope.launch {
                 try {
                     val response =
-                        RetrofitClientWrapper.apiService.updateUser(updatedUser.regnumber, updatedUser)
+                        RetrofitClientWrapper.apiService.updateUser(updatedUser.id, updatedUser)
                     if (response.isSuccessful) {
                         Toast.makeText(this@EditUserActivity, "User updated successfully", Toast.LENGTH_SHORT).show()
                         finish()
@@ -81,6 +81,8 @@ class EditUserActivity : AppCompatActivity() {
                     Toast.makeText(this@EditUserActivity, "Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             }
+        } else {
+            Toast.makeText(this, "User ID is missing", Toast.LENGTH_SHORT).show()
         }
     }
 }

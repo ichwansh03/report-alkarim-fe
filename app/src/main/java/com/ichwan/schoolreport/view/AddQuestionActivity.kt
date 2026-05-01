@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ichwan.schoolreport.core.RetrofitClientWrapper
 import com.ichwan.schoolreport.databinding.ActivityAddQuestionBinding
 import com.ichwan.schoolreport.model.Question
+import com.ichwan.schoolreport.util.AnswerType
 import com.ichwan.schoolreport.viewmodel.CategoryViewModel
 import kotlinx.coroutines.launch
 
@@ -58,10 +59,10 @@ class AddQuestionActivity : AppCompatActivity() {
         val category = binding.categorySp.selectedItem.toString()
         val questionText = binding.questionEt.text.toString().trim()
         val target = binding.classSp.selectedItem.toString()
-        val option = when {
-            binding.checklistRb.isChecked -> "Checkbox"
-            binding.freeTextRb.isChecked -> "Text"
-            else -> ""
+        val options = when {
+            binding.checklistRb.isChecked -> AnswerType.TRUE_FALSE // Mapped to TRUE_FALSE for example
+            binding.freeTextRb.isChecked -> AnswerType.DESCRIPTIVE
+            else -> null
         }
 
         if (questionText.isEmpty()) {
@@ -69,16 +70,16 @@ class AddQuestionActivity : AppCompatActivity() {
             return
         }
 
-        if (option.isEmpty()) {
+        if (options == null) {
             Toast.makeText(this, "Please select an answer type", Toast.LENGTH_SHORT).show()
             return
         }
 
         val question = Question(
-            quest = questionText,
+            question = questionText,
             category = category,
             target = target,
-            option = option
+            options = options
         )
 
         lifecycleScope.launch {

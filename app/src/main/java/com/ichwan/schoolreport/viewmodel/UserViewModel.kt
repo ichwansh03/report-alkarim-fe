@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ichwan.schoolreport.model.BaseResponse
+import com.ichwan.schoolreport.model.ApiResponse
 import com.ichwan.schoolreport.model.User
 import com.ichwan.schoolreport.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -25,11 +25,16 @@ class UserViewModel(private val repository: UserRepository = UserRepository()) :
     val user: LiveData<User?> = _user
 
 
-    private suspend fun fetchUsers(request: suspend () -> Response<BaseResponse<List<User>>>) {
+    private suspend fun fetchUsers(request: suspend () -> Response<ApiResponse<List<User>>>) {
         try {
             val response = withContext(Dispatchers.IO) { request() }
             if (response.isSuccessful) {
-                _users.postValue(response.body()?.data)
+                val data = response.body()?.data
+                if (data != null) {
+                    _users.postValue(data)
+                } else {
+                    _message.postValue("No data found")
+                }
             } else {
                 _message.postValue("Failed to load users: ${response.message()}")
             }

@@ -10,6 +10,7 @@ import com.ichwan.schoolreport.databinding.ItemTextBinding
 import com.ichwan.schoolreport.model.ActivityReport
 import com.ichwan.schoolreport.model.Question
 import com.ichwan.schoolreport.model.User
+import com.ichwan.schoolreport.util.AnswerType
 import com.ichwan.schoolreport.viewmodel.ReportViewModel
 import kotlinx.coroutines.launch
 
@@ -26,9 +27,9 @@ class QuestionActivityAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when (questions[position].option) {
-            "TRUE_FALSE" -> VIEW_TYPE_CHECKBOX
-            "DESCRIPTIVE" -> VIEW_TYPE_TEXT
+        return when (questions[position].options) {
+            AnswerType.TRUE_FALSE -> VIEW_TYPE_CHECKBOX
+            AnswerType.DESCRIPTIVE -> VIEW_TYPE_TEXT
             else -> throw IllegalArgumentException("Invalid view type")
         }
     }
@@ -67,7 +68,7 @@ class QuestionActivityAdapter(
     inner class CheckboxViewHolder(private val binding: ItemCheckboxBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(question: Question) {
-            binding.questionTv.text = question.quest
+            binding.questionTv.text = question.question
             binding.questionCb.setOnCheckedChangeListener { _, isChecked ->
                 saveAnswer(question, isChecked.toString())
             }
@@ -77,7 +78,7 @@ class QuestionActivityAdapter(
     inner class TextViewHolder(private val binding: ItemTextBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(question: Question) {
-            binding.questionTv.text = question.quest
+            binding.questionTv.text = question.question
             binding.answerEt.setOnFocusChangeListener { _, hasFocus ->
                 if (!hasFocus) {
                     saveAnswer(question, binding.answerEt.text.toString())
@@ -90,15 +91,16 @@ class QuestionActivityAdapter(
         lifecycleScope.launch {
             try {
                 val report = ActivityReport(
-                    nip = student.regnumber,
                     category = question.category,
-                    question = question.quest,
-                    answer = answer,
-                    score = ""
+                    content = question.question,
+                    userId = student.id,
+                    regnumber = student.regnumber,
+                    score = "",
+                    answer = answer
                 )
                 viewModel.addReports(report)
             } catch (e: Exception) {
-                Log.e("SaveAnswer", "Failed to fetch questions: ", e)
+                Log.e("SaveAnswer", "Failed to save answer: ", e)
             }
         }
     }

@@ -3,8 +3,8 @@ package com.ichwan.schoolreport.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class BaseResponse<T>(
+data class ApiResponse<T>(
     val status: Int,
     val message: String,
-    val data: T
+    val data: T? = null
 )

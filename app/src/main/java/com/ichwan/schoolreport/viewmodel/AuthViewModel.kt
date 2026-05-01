@@ -47,14 +47,19 @@ class AuthViewModel(application: Application) : AndroidViewModel(application) {
                 if (response.isSuccessful && response.body() != null) {
                     val loginResponse = response.body()!!
 
-                    val token = loginResponse.data.token
-                    tokenDataStore.saveTokens(
-                        accessToken = token,
-                        refreshToken = token // replace when backend returns a real refresh token
-                    )
-                    _userRole.value = loginResponse.data.user.roles
-                    _message.value = "Login successful"
-                    _loginSuccess.value = true
+                    val token = loginResponse.data?.token
+                    if (token != null) {
+                        tokenDataStore.saveTokens(
+                            accessToken = token,
+                            refreshToken = token // replace when backend returns a real refresh token
+                        )
+                        _userRole.value = loginResponse.data.user.roles.name
+                        _message.value = "Login successful"
+                        _loginSuccess.value = true
+                    } else {
+                        _message.value = "Login failed: No token received"
+                        _loginSuccess.value = false
+                    }
                 } else {
                     _message.value = "Login failed: ${response.message()}"
                     _loginSuccess.value = false

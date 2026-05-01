@@ -19,7 +19,7 @@ class TeacherHelper(
     fun setUp(){
         activity.lifecycleScope.launch {
             try {
-                viewModel.loadUsersByClassAndRoles(user.room, "STUDENT")
+                viewModel.loadUsersByClassAndRoles(user.clsroom, "STUDENT")
             } catch (e: Exception) {
                 e.printStackTrace()
             }

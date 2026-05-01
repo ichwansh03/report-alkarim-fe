@@ -22,7 +22,7 @@ class StudentHelper(
     init {
         setupView()
         setupObservers()
-        questionViewModel.loadQuestionsByTarget(user.room)
+        questionViewModel.loadQuestionsByTarget(user.clsroom)
     }
 
     private fun setupView() {

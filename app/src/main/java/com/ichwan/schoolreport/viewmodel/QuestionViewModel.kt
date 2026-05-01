@@ -20,13 +20,13 @@ class QuestionViewModel(private val repository: QuestionRepository = QuestionRep
         viewModelScope.launch {
             try {
                 val response = repository.getQuestionsByTarget(target)
-                if (response.isSuccessful) {
-                    _questions.postValue(response.body()?.data)
+                if (response.isSuccessful && response.body() != null) {
+                    _questions.value = response.body()?.data ?: emptyList()
                 } else {
-                    _message.postValue("Failed to load questions: ${response.message()}")
+                    _message.value = "Failed to load questions: ${response.message()}"
                 }
             } catch (e: Exception) {
-                _message.postValue("An error occurred: ${e.message}")
+                _message.value = "An error occurred: ${e.message}"
             }
         }
     }

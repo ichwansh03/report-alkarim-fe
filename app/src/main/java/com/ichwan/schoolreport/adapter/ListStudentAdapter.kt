@@ -18,7 +18,7 @@ class ListStudentAdapter(
     inner class ListStudentViewHolder(private val binding: ItemStudentBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(user: User) {
             binding.nameTv.text = user.name
-            binding.classTv.text = user.room
+            binding.classTv.text = user.clsroom
             binding.avatarImg.setImageResource(R.drawable.account_circle)
             binding.root.setOnClickListener { onItemClick(user) }
         }
