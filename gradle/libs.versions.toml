@@ -16,7 +16,7 @@ coroutines = "1.10.2"
 activityVersion = "1.13.0"
 retrofit = "3.0.0"
 okhttp3 = "4.12.0"
-serialization = "1.6.3"
+serialization = "1.11.0"
 datastore = "1.2.1"
 
 [libraries]
